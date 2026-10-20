@@ -1,0 +1,126 @@
+.plant {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  align-items: end;
+  padding: var(--s-4);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.plant .grow {
+  flex: 1 1 280px;
+}
+.plant .field:not(.grow) {
+  flex: 0 0 180px;
+}
+
+.habit-legend,
+.habit .days {
+  display: grid;
+  grid-template-columns: repeat(28, minmax(14px, 1fr));
+  gap: 4px;
+}
+.habit-legend {
+  margin-left: calc(240px + var(--s-5));
+  margin-right: calc(110px + var(--s-4));
+  margin-bottom: var(--s-2);
+  font-size: 0.68rem;
+  color: var(--ink-3);
+}
+.habit-legend span {
+  text-align: center;
+}
+
+.habits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+.habit {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 110px;
+  gap: var(--s-5);
+  align-items: center;
+  padding: var(--s-4) var(--s-4) var(--s-4) var(--s-5);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.habit-name b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--t-lg);
+}
+.habit-name span {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+.day {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: var(--r-pebble);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  padding: 0;
+  cursor: default;
+}
+.day.on {
+  background: var(--moss);
+  border-color: var(--moss);
+}
+.day.today {
+  outline: 2px solid var(--pond);
+  outline-offset: 1px;
+}
+button.day {
+  cursor: pointer;
+  transition: transform var(--dur-1) var(--ease-spring), background var(--dur-1);
+}
+button.day:hover {
+  transform: scale(1.12) rotate(-6deg);
+  border-color: var(--moss);
+}
+.habit-side {
+  display: grid;
+  justify-items: end;
+  gap: var(--s-1);
+}
+.week-count {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.week-count small {
+  font-family: var(--font-ui);
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+@media (max-width: 960px) {
+  .habit-legend {
+    display: none;
+  }
+  .habit {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'name side'
+      'days days';
+    padding: var(--s-4);
+  }
+  .habit-name {
+    grid-area: name;
+  }
+  .habit-side {
+    grid-area: side;
+  }
+  .habit .days {
+    grid-area: days;
+    grid-template-columns: repeat(14, minmax(0, 1fr));
+  }
+  .habit .days .older {
+    display: none;
+  }
+}

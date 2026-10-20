@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Habits · UStudy</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script src="/theme-boot.js"></script>
+</head>
+<body>
+  <div class="app">
+    <nav class="rail" id="rail"></nav>
+    <main class="main" id="main">
+      <div class="page">
+        <header class="page-head">
+          <div>
+            <h1>Habits</h1>
+            <p>Small things, most days. Each check-in feeds your companion a little.</p>
+          </div>
+        </header>
+
+        <form id="plant" class="plant" novalidate>
+          <div class="field grow">
+            <label for="p-name">New habit</label>
+            <input class="input" id="p-name" name="name" maxlength="60" placeholder="Read 20 pages, stretch, review notes…" required />
+          </div>
+          <div class="field">
+            <label for="p-target">How often</label>
+            <select class="select" id="p-target" name="targetPerWeek">
+              <option value="7">Every day</option>
+              <option value="5">5 days a week</option>
+              <option value="3">3 days a week</option>
+              <option value="2">Twice a week</option>
+              <option value="1">Once a week</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" type="submit"><i data-icon="sprout"></i>Plant it</button>
+        </form>
+
+        <section aria-labelledby="list-title">
+          <h2 id="list-title" class="visually-hidden">Your habits</h2>
+          <div class="habit-legend" aria-hidden="true" id="legend"></div>
+          <ul class="habits" id="habits"></ul>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="./src/pages/habits.js"></script>
+</body>
+</html>
