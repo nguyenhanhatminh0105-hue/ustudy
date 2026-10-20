@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Study rooms · UStudy</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script src="/theme-boot.js"></script>
+</head>
+<body>
+  <div class="app">
+    <nav class="rail" id="rail"></nav>
+    <main class="main" id="main">
+      <div class="page">
+        <!-- Lobby -->
+        <div id="lobby" hidden>
+          <header class="page-head">
+            <div>
+              <h1>Study rooms</h1>
+              <p>Study alongside friends: a shared chat and one set of notes. Rooms tidy themselves away after two weeks.</p>
+            </div>
+          </header>
+          <div class="lobby-forms">
+            <form id="host" class="lobby-card" novalidate>
+              <h2>Host a room</h2>
+              <div class="field">
+                <label for="room-name">Room name</label>
+                <input class="input" id="room-name" name="name" maxlength="60" placeholder="CMPT 381 midterm crew" required />
+              </div>
+              <button class="btn btn-primary" type="submit"><i data-icon="plus"></i>Create room</button>
+            </form>
+            <form id="join" class="lobby-card" novalidate>
+              <h2>Join with a code</h2>
+              <div class="field">
+                <label for="room-code">Room code</label>
+                <input class="input code-input" id="room-code" name="code" maxlength="8" placeholder="ABCD2345" autocomplete="off" autocapitalize="characters" spellcheck="false" required />
+              </div>
+              <button class="btn" type="submit"><i data-icon="door"></i>Join</button>
+            </form>
+          </div>
+          <section aria-labelledby="mine-title">
+            <div class="section-head"><h2 id="mine-title">Your rooms</h2></div>
+            <ul class="room-list" id="rooms"></ul>
+          </section>
+        </div>
+
+        <!-- Room -->
+        <div id="room" class="room" hidden>
+          <header class="page-head">
+            <div>
+              <a class="back" href="/rooms.html"><i data-icon="chevron-left" data-size="16"></i>All rooms</a>
+              <h1 id="room-name-title">&nbsp;</h1>
+              <p id="room-meta">&nbsp;</p>
+            </div>
+            <div class="page-actions">
+              <button class="btn" type="button" id="copy"><i data-icon="copy"></i><span id="room-code-label"></span></button>
+            </div>
+          </header>
+          <div class="presence" id="presence" aria-live="polite"></div>
+          <div class="room-grid">
+            <section class="chat" aria-labelledby="chat-title">
+              <h2 id="chat-title">Chat</h2>
+              <ol class="messages" id="messages" aria-live="polite"></ol>
+              <form id="composer" class="composer" autocomplete="off">
+                <label class="visually-hidden" for="message">Message</label>
+                <input class="input" id="message" name="body" maxlength="1000" placeholder="Say something to the room" />
+                <button class="btn btn-primary btn-icon" type="submit" aria-label="Send"><i data-icon="send"></i></button>
+              </form>
+            </section>
+            <section class="notes" aria-labelledby="notes-title">
+              <div class="notes-head">
+                <h2 id="notes-title">Shared notes</h2>
+                <span class="notes-status" id="notes-status" aria-live="polite"></span>
+              </div>
+              <label class="visually-hidden" for="notes">Shared notes</label>
+              <textarea class="textarea notes-area" id="notes" maxlength="20000" placeholder="Agenda, formulas, who’s doing what…"></textarea>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="./src/pages/rooms.js"></script>
+</body>
+</html>

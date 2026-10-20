@@ -1,0 +1,225 @@
+#lobby {
+  display: grid;
+  gap: var(--s-6);
+}
+.lobby-forms {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+.lobby-card {
+  display: grid;
+  gap: var(--s-4);
+  align-content: start;
+  padding: var(--s-5);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.lobby-card h2 {
+  font-size: var(--t-xl);
+}
+.lobby-card .btn {
+  justify-self: start;
+}
+.code-input {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.room-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.room-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  gap: var(--s-4);
+  align-items: center;
+  padding: var(--s-3) var(--s-2);
+  border-bottom: 1px solid var(--line);
+}
+.room-list b {
+  display: block;
+}
+.room-list .code {
+  font-family: var(--font-display);
+  letter-spacing: 0.12em;
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+.room-list .expires {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+
+/* ── Inside a room ───────────────────────────────────── */
+.room {
+  display: grid;
+  gap: var(--s-4);
+}
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: var(--s-2);
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+  text-decoration: none;
+}
+.back:hover {
+  color: var(--ink);
+}
+#copy span {
+  font-family: var(--font-display);
+  letter-spacing: 0.14em;
+}
+.presence {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  align-items: center;
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+.person {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 3px;
+  border-radius: 99px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+}
+.person i {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--r-pebble);
+  background: var(--moss-soft);
+  color: var(--moss-text);
+  font-style: normal;
+  font-weight: 700;
+  font-size: var(--t-xs);
+}
+.room-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-4);
+  height: min(68vh, 680px);
+}
+.chat,
+.notes {
+  display: grid;
+  min-height: 0;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.chat {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+.notes {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.chat h2,
+.notes h2 {
+  font-size: var(--t-lg);
+}
+.messages {
+  list-style: none;
+  margin: 0;
+  padding: 0 4px 0 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+.msg {
+  max-width: 82%;
+  display: grid;
+  gap: 2px;
+}
+.msg .who {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+.msg .bubble {
+  padding: 8px 12px;
+  border-radius: 14px 14px 14px 4px;
+  background: var(--surface-2);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.msg.mine {
+  align-self: flex-end;
+  justify-items: end;
+}
+.msg.mine .bubble {
+  border-radius: 14px 14px 4px 14px;
+  background: var(--moss);
+  color: var(--moss-ink);
+}
+.msg time {
+  font-size: 0.68rem;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.system {
+  align-self: center;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+.composer {
+  display: flex;
+  gap: var(--s-2);
+}
+.notes-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.notes-status {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+.notes-area {
+  height: 100%;
+  resize: none;
+  font-size: var(--t-md);
+  line-height: 1.7;
+  background-color: var(--surface);
+  /* lined like a notebook page, raked like gravel */
+  background-image: repeating-linear-gradient(180deg, transparent 0 26.2px, var(--line) 26.2px 27.2px);
+  background-attachment: local;
+}
+
+@media (max-width: 900px) {
+  .lobby-forms,
+  .room-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .room-grid {
+    height: auto;
+  }
+  .chat {
+    height: 60vh;
+  }
+  .notes-area {
+    min-height: 40vh;
+  }
+  .room-list li {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .room-list .expires,
+  .room-list .code {
+    display: none;
+  }
+}
