@@ -94,6 +94,16 @@ export function authRoutes({ db, config, limiters }) {
     res.status(204).end();
   });
 
+  /** Like /me, but answers 200 with { user: null } when signed out, for pages that just need to know. */
+  router.get(
+    '/session',
+    wrap(async (req, res) => {
+      if (!req.user) return res.json({ user: null });
+      const { rows } = await db.query(`SELECT ${USER_COLUMNS} FROM users WHERE id = $1`, [req.user.id]);
+      res.json({ user: rows[0] ? publicUser(rows[0]) : null });
+    }),
+  );
+
   router.get(
     '/me',
     requireAuth,

@@ -87,3 +87,12 @@ test('role cannot be set by the client', async () => {
   await agent.patch('/api/auth/me').send({ name: 'Still me', role: 'admin' });
   assert.equal((await agent.get('/api/auth/me')).body.user.role, 'student');
 });
+
+test('/session answers 200 either way, with the user only when signed in', async () => {
+  const anon = await request(ctx.app).get('/api/auth/session');
+  assert.equal(anon.status, 200);
+  assert.equal(anon.body.user, null);
+  const { agent, user } = await signUp(ctx.app);
+  const signedIn = await agent.get('/api/auth/session');
+  assert.equal(signedIn.body.user.id, user.id);
+});
