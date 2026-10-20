@@ -1,0 +1,144 @@
+@import '@fontsource/zen-kaku-gothic-new/latin-400.css';
+@import '@fontsource/zen-kaku-gothic-new/latin-500.css';
+@import '@fontsource/zen-kaku-gothic-new/latin-700.css';
+@import '@fontsource/zen-maru-gothic/latin-500.css';
+@import '@fontsource/zen-maru-gothic/latin-700.css';
+@import '@fontsource/zen-maru-gothic/latin-900.css';
+
+/*
+ * UStudy design tokens: a zen garden by day and by night.
+ * Ground is raked granite (cool grey, never cream); moss carries action;
+ * pond indigo carries information; koi orange is reserved for coins and
+ * lantern gold for growth (XP). Colour always means something.
+ */
+:root {
+  color-scheme: light;
+  --bg: #e4e7e1;
+  --bg-rake: rgb(29 35 32 / 0.045);
+  --surface: #f3f4f0;
+  --surface-2: #eaece6;
+  --surface-sunk: #dadfd6;
+  --ink: #1b211e;
+  --ink-2: #434c46;
+  --ink-3: #5b645d;
+  --line: #ccd1c8;
+  --line-strong: #aeb5ab;
+
+  --moss: #3d6b37;
+  --moss-hover: #335d2e;
+  --moss-ink: #f3f7ef;
+  --moss-soft: #d5e3cc;
+  --moss-text: #335d2e;
+  --pond: #2c5d72;
+  --pond-soft: #d3e3ea;
+  --koi: #c4561f;
+  --koi-soft: #f6dccd;
+  --lantern: #93690f;
+  --lantern-soft: #efe0bb;
+  --danger: #a8352a;
+  --danger-soft: #f3d6d1;
+  --warn: #8a5a08;
+
+  --focus: #2c5d72;
+  --shadow-1: 0 1px 2px rgb(27 33 30 / 0.06), 0 2px 8px rgb(27 33 30 / 0.05);
+  --shadow-2: 0 2px 4px rgb(27 33 30 / 0.06), 0 12px 32px rgb(27 33 30 / 0.12);
+
+  --font-ui: 'Zen Kaku Gothic New', 'Hiragino Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Zen Kaku Gothic New', system-ui, sans-serif;
+
+  --t-xs: 0.75rem;
+  --t-sm: 0.875rem;
+  --t-md: 1rem;
+  --t-lg: 1.125rem;
+  --t-xl: 1.375rem;
+  --t-2xl: 1.75rem;
+  --t-3xl: clamp(2rem, 1.4rem + 2vw, 2.75rem);
+  --t-display: clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem);
+
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 72px;
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --r-pebble: 52% 48% 46% 54% / 56% 50% 50% 44%;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-1: 120ms;
+  --dur-2: 220ms;
+  --dur-3: 420ms;
+
+  --rail: 248px;
+}
+
+/* Night garden: follows the system, unless the person picked a theme. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='day']) {
+    color-scheme: dark;
+    --bg: #111613;
+    --bg-rake: rgb(229 233 227 / 0.035);
+    --surface: #18201b;
+    --surface-2: #1f2822;
+    --surface-sunk: #0c100e;
+    --ink: #e5e9e3;
+    --ink-2: #b6beb7;
+    --ink-3: #939d95;
+    --line: #2b3530;
+    --line-strong: #3f4b44;
+    --moss: #8dbf7c;
+    --moss-hover: #a2cf92;
+    --moss-ink: #0f170d;
+    --moss-soft: #24331f;
+    --moss-text: #a2cf92;
+    --pond: #86bacd;
+    --pond-soft: #1b2e36;
+    --koi: #f39461;
+    --koi-soft: #3a2418;
+    --lantern: #e8bf62;
+    --lantern-soft: #352a12;
+    --danger: #f08a7c;
+    --danger-soft: #3a1c18;
+    --warn: #e5b25a;
+    --focus: #86bacd;
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.3), 0 2px 8px rgb(0 0 0 / 0.25);
+    --shadow-2: 0 2px 4px rgb(0 0 0 / 0.3), 0 16px 40px rgb(0 0 0 / 0.45);
+  }
+}
+:root[data-theme='night'] {
+  color-scheme: dark;
+  --bg: #111613;
+  --bg-rake: rgb(229 233 227 / 0.035);
+  --surface: #18201b;
+  --surface-2: #1f2822;
+  --surface-sunk: #0c100e;
+  --ink: #e5e9e3;
+  --ink-2: #b6beb7;
+  --ink-3: #939d95;
+  --line: #2b3530;
+  --line-strong: #3f4b44;
+  --moss: #8dbf7c;
+  --moss-hover: #a2cf92;
+  --moss-ink: #0f170d;
+  --moss-soft: #24331f;
+  --moss-text: #a2cf92;
+  --pond: #86bacd;
+  --pond-soft: #1b2e36;
+  --koi: #f39461;
+  --koi-soft: #3a2418;
+  --lantern: #e8bf62;
+  --lantern-soft: #352a12;
+  --danger: #f08a7c;
+  --danger-soft: #3a1c18;
+  --warn: #e5b25a;
+  --focus: #86bacd;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.3), 0 2px 8px rgb(0 0 0 / 0.25);
+  --shadow-2: 0 2px 4px rgb(0 0 0 / 0.3), 0 16px 40px rgb(0 0 0 / 0.45);
+}

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>UStudy · Grow a garden by getting work done</title>
+  <meta name="description" content="A study companion that grows up with you. Assignments, focus sessions and habits turn into growth for a turtle or panda in its own zen garden." />
+  <meta name="theme-color" content="#e4e7e1" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script src="/theme-boot.js"></script>
+</head>
+<body class="welcome">
+  <!--
+    THESIS: The garden is the product; the sign-in panel is a quiet stone beside it. Refuses the split-hero SaaS login with a stock illustration.
+    OWN-WORLD: Raked granite ground, moss actions, pond-indigo information, koi for coins, lantern gold for growth; Zen Maru + Zen Kaku type; pebble controls; stone-path navigation.
+    STORY: A student sees a living companion in its garden, understands work grows it, and signs in or adopts one.
+    FIRST VIEWPORT: Live 3D garden fills the left ~60% with the headline set on the gravel at top-left; the auth panel sits right on a raised stone slab; on phones the garden is the top 45%.
+    FORM: Zen Garden Sanctuary (built from the brief after the user's zen steer); seed key 5b1faceb.
+    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+  -->
+  <main class="welcome-grid">
+    <section class="welcome-garden" aria-label="A live preview of a companion's garden">
+      <div class="welcome-copy">
+        <h1>Grow a garden by getting work&nbsp;done.</h1>
+        <p>Finish assignments, keep focus sessions and check off habits, and your companion grows up with you, from a wobbly baby to a calm adult in a garden you built.</p>
+      </div>
+      <div id="garden" class="welcome-canvas" tabindex="0" aria-label="Companion garden. Press Enter to pet the companion."></div>
+      <p class="welcome-hint" id="hint">Click the companion, hold it, or drag it into the pond.</p>
+    </section>
+
+    <section class="welcome-panel" aria-labelledby="auth-title">
+      <div class="auth">
+        <div class="auth-brand"><span id="mark"></span><span>UStudy</span></div>
+        <h2 id="auth-title">Welcome back</h2>
+
+        <div class="segmented auth-tabs" role="tablist" aria-label="Sign in or create an account">
+          <label><input type="radio" name="mode" value="signin" checked /><span>Sign in</span></label>
+          <label><input type="radio" name="mode" value="signup" /><span>Create account</span></label>
+        </div>
+
+        <form id="signin" class="form-grid" novalidate>
+          <div class="field">
+            <label for="si-email">Email</label>
+            <input class="input" id="si-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="si-password">Password</label>
+            <input class="input" id="si-password" name="password" type="password" autocomplete="current-password" required />
+          </div>
+          <p class="form-error" role="alert" hidden></p>
+          <button class="btn btn-primary btn-lg" type="submit">Sign in</button>
+          <button class="btn btn-quiet sample" type="button" id="sample">Use the sample account</button>
+        </form>
+
+        <form id="signup" class="form-grid" novalidate hidden>
+          <fieldset class="companion-pick">
+            <legend class="label">Choose your companion</legend>
+            <div class="pick-row">
+              <label class="pick">
+                <input type="radio" name="companion" value="turtle" checked />
+                <span><b>Turtle</b><small>Loves water and sunny stones</small></span>
+              </label>
+              <label class="pick">
+                <input type="radio" name="companion" value="panda" />
+                <span><b>Panda</b><small>Loves bamboo and long naps</small></span>
+              </label>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="su-name">Your name</label>
+            <input class="input" id="su-name" name="name" autocomplete="name" required maxlength="80" />
+          </div>
+          <div class="field">
+            <label for="su-email">Email</label>
+            <input class="input" id="su-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="su-password">Password</label>
+            <input class="input" id="su-password" name="password" type="password" autocomplete="new-password" minlength="10" required />
+            <p class="hint">At least 10 characters.</p>
+          </div>
+          <p class="form-error" role="alert" hidden></p>
+          <button class="btn btn-primary btn-lg" type="submit">Adopt and start</button>
+        </form>
+
+        <p class="fine">Runs locally on your machine. Your study data stays in your own database.</p>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./src/pages/welcome.js"></script>
+</body>
+</html>

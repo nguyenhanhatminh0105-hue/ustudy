@@ -1,0 +1,171 @@
+.welcome-grid {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(360px, 1fr);
+}
+
+.welcome-garden {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: clamp(var(--s-5), 4vw, var(--s-7));
+  overflow: hidden;
+}
+.welcome-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 34rem;
+}
+.welcome-copy h1 {
+  font-size: var(--t-display);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+}
+.welcome-copy p {
+  margin-top: var(--s-4);
+  max-width: 30rem;
+  font-size: var(--t-lg);
+  color: var(--ink-2);
+}
+.welcome-canvas {
+  min-height: 360px;
+  margin: calc(var(--s-6) * -1) calc(var(--s-6) * -1) 0;
+  border-radius: var(--r-xl);
+}
+.welcome-canvas:focus-visible {
+  outline-offset: -6px;
+}
+.welcome-hint {
+  justify-self: center;
+  display: inline-flex;
+  gap: var(--s-2);
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  transition: opacity var(--dur-3);
+}
+
+.welcome-panel {
+  display: grid;
+  align-items: center;
+  padding: var(--s-6) clamp(var(--s-5), 4vw, var(--s-8));
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+}
+.auth {
+  width: min(400px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: var(--s-5);
+}
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.35rem;
+}
+.auth-brand svg {
+  width: 34px;
+  height: 34px;
+}
+.auth h2 {
+  font-size: var(--t-2xl);
+}
+.auth-tabs {
+  width: 100%;
+}
+.auth-tabs label {
+  flex: 1;
+}
+.auth-tabs span {
+  justify-content: center;
+  width: 100%;
+}
+.sample {
+  justify-self: center;
+}
+.fine {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+
+.companion-pick {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+.companion-pick legend {
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--ink-2);
+  margin-bottom: var(--s-2);
+}
+.pick-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-2);
+}
+.pick {
+  position: relative;
+}
+.pick input {
+  position: absolute;
+  opacity: 0;
+}
+.pick span {
+  display: grid;
+  gap: 2px;
+  padding: var(--s-3);
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--r-lg);
+  cursor: pointer;
+  transition: border-color var(--dur-1), background var(--dur-1);
+}
+.pick b {
+  font-family: var(--font-display);
+}
+.pick small {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+.pick input:checked + span {
+  border-color: var(--moss);
+  background: var(--moss-soft);
+}
+.pick input:focus-visible + span {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  .welcome-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .welcome-garden {
+    min-height: 62dvh;
+    padding: var(--s-5) var(--s-4) var(--s-3);
+  }
+  .welcome-canvas {
+    min-height: 300px;
+    margin: calc(var(--s-4) * -1) calc(var(--s-4) * -1) 0;
+  }
+  .welcome-copy h1 {
+    font-size: clamp(2rem, 8vw, 2.6rem);
+  }
+  .welcome-copy p {
+    font-size: var(--t-md);
+  }
+  .welcome-panel {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: var(--s-6) var(--s-4) var(--s-7);
+  }
+}

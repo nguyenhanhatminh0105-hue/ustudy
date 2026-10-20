@@ -1,0 +1,275 @@
+.app {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+}
+
+/* ── Stone-path rail ──────────────────────────────────── */
+.rail {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  padding: var(--s-5) var(--s-4) var(--s-4);
+  border-right: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  backdrop-filter: saturate(1.1);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 var(--s-2);
+  color: var(--ink);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+.brand svg {
+  width: 34px;
+  height: 34px;
+}
+.path {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* the faint path the stones sit on */
+.path::before {
+  content: '';
+  position: absolute;
+  left: 21px;
+  top: 14px;
+  bottom: 14px;
+  border-left: 2px dotted var(--line-strong);
+}
+.path a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 42px;
+  padding: 0 var(--s-3) 0 8px;
+  border-radius: var(--r-md);
+  color: var(--ink-2);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background var(--dur-1), color var(--dur-1);
+}
+.path a .stone {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 26px;
+  border-radius: var(--r-pebble);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  transition: background var(--dur-2), transform var(--dur-2) var(--ease-spring), border-color var(--dur-2);
+}
+.path a .stone svg {
+  width: 15px;
+  height: 15px;
+}
+.path a:hover {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+.path a:hover .stone {
+  transform: rotate(-8deg);
+}
+.path a[aria-current='page'] {
+  color: var(--ink);
+  font-weight: 700;
+}
+.path a[aria-current='page'] .stone {
+  background: var(--moss);
+  border-color: var(--moss);
+  color: var(--moss-ink);
+}
+.rail-foot {
+  margin-top: auto;
+  display: grid;
+  gap: var(--s-3);
+}
+.purse {
+  display: grid;
+  gap: var(--s-2);
+  padding: var(--s-3);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+.purse-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+.purse-row b {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  font-size: var(--t-md);
+}
+.purse-row .coins {
+  color: var(--koi);
+}
+.me {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+.me-name {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--t-sm);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Growth bar: four bamboo segments, one per life stage ── */
+.growth {
+  display: grid;
+  gap: 6px;
+}
+.growth-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+.growth-label b {
+  color: var(--ink-2);
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.bamboo-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  height: 10px;
+}
+.bamboo-bar span {
+  position: relative;
+  border-radius: 3px;
+  background: var(--surface-sunk);
+  overflow: hidden;
+}
+.bamboo-bar span i {
+  position: absolute;
+  inset: 0;
+  width: calc(var(--fill, 0) * 100%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--moss) 80%, white), var(--moss));
+  border-radius: inherit;
+  transition: width 900ms var(--ease-out);
+}
+
+/* ── Main column ──────────────────────────────────────── */
+.main {
+  min-width: 0;
+  padding: var(--s-6) clamp(var(--s-4), 3vw, var(--s-7)) var(--s-8);
+}
+.page {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  gap: var(--s-6);
+}
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+.page-head h1 {
+  font-size: var(--t-3xl);
+}
+.page-head p {
+  color: var(--ink-2);
+  margin-top: 4px;
+}
+.page-actions {
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin-bottom: var(--s-3);
+}
+.section-head h2 {
+  font-size: var(--t-xl);
+}
+.section-head .meta {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+
+/* ── Phone: the path becomes a bottom bar ─────────────── */
+@media (max-width: 860px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rail {
+    position: fixed;
+    z-index: 40;
+    inset: auto 0 0 0;
+    height: auto;
+    flex-direction: row;
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+    border-right: 0;
+    border-top: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    backdrop-filter: blur(12px);
+  }
+  .rail .brand,
+  .rail-foot,
+  .path li.secondary {
+    display: none;
+  }
+  .path {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+  }
+  .path::before {
+    display: none;
+  }
+  .path a {
+    flex-direction: column;
+    gap: 2px;
+    min-height: 52px;
+    padding: 4px 6px;
+    font-size: 0.7rem;
+  }
+  .main {
+    padding: var(--s-5) var(--s-4) calc(96px + env(safe-area-inset-bottom));
+  }
+  .mobile-top {
+    display: flex !important;
+  }
+}
+.mobile-top {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s-4);
+}
+.mobile-top .brand {
+  padding: 0;
+}
