@@ -1,0 +1,291 @@
+/* ── Hero: the garden owns the top of the page ───────── */
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(340px, 52vh) auto;
+  border-radius: var(--r-xl);
+  background:
+    radial-gradient(120% 90% at 50% 70%, color-mix(in srgb, var(--surface) 70%, transparent), transparent 70%),
+    repeating-linear-gradient(180deg, transparent 0 11px, var(--bg-rake) 11px 12px);
+  border: 1px solid var(--line);
+  padding: var(--s-5) var(--s-5) var(--s-4);
+  overflow: hidden;
+}
+.hero-copy {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  z-index: 1;
+}
+.hero-copy h1 {
+  font-size: var(--t-3xl);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+.hero-copy p {
+  margin-top: 4px;
+  color: var(--ink-2);
+}
+.hero-garden {
+  grid-column: 1 / -1;
+  grid-row: 1 / 3;
+  margin: -10px -24px 0;
+  border-radius: var(--r-xl);
+}
+.hero-garden:focus-visible {
+  outline-offset: -8px;
+}
+.hero-caption {
+  grid-column: 1;
+  grid-row: 3;
+  align-self: center;
+  justify-self: start;
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  min-height: 34px;
+}
+.hero-stats {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  position: relative;
+  z-index: 1;
+  align-self: start;
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+}
+.hero-stats div {
+  display: grid;
+  gap: 0;
+  min-width: 150px;
+  padding: 10px 14px;
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(6px);
+}
+.hero-stats dt {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+}
+.hero-stats dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--t-xl);
+}
+
+/* ── Next up: assignments as stones on raked gravel ──── */
+.today-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+  gap: var(--s-6);
+  align-items: start;
+}
+.stones {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.stone-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--s-3) var(--s-4);
+  align-items: center;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg);
+  transition: background var(--dur-1);
+}
+.stone-row:hover {
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+.stone-row + .stone-row::before {
+  content: '';
+  position: absolute;
+  left: 58px;
+  right: var(--s-4);
+  top: -1px;
+  border-top: 1px solid var(--line);
+}
+/* The next thing due gets the raked ripple rings. */
+.stone-row.is-next {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding-block: var(--s-4);
+}
+.stone-row.is-next .pebble::before {
+  content: '';
+  position: absolute;
+  inset: -9px;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 5px, color-mix(in srgb, var(--moss) 28%, transparent) 5px 6px);
+  mask: radial-gradient(circle, transparent 13px, black 14px);
+  animation: ripple 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes ripple {
+  50% {
+    transform: scale(1.12);
+    opacity: 0.6;
+  }
+}
+.stone-title {
+  min-width: 0;
+}
+.stone-title b {
+  display: block;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stone-title span {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+.stone-meta {
+  display: flex;
+  gap: var(--s-2);
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+.due {
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.due.late {
+  color: var(--danger);
+  font-weight: 500;
+}
+.stone-row.is-done .stone-title b {
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-3);
+  color: var(--ink-3);
+}
+
+/* ── Side column ─────────────────────────────────────── */
+.today-side {
+  display: grid;
+  gap: var(--s-6);
+}
+.habit-checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-1);
+}
+.habit-checks label {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: 10px var(--s-3);
+  border-radius: var(--r-md);
+  cursor: pointer;
+}
+.habit-checks label:hover {
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+.habit-checks .streak {
+  margin-left: auto;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.focus-cta {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-4) var(--s-5);
+  border-radius: var(--r-xl);
+  background: var(--pond);
+  color: var(--bg);
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.focus-cta:hover {
+  transform: translateY(-2px);
+}
+.focus-cta span:not(.focus-cta-ripple) {
+  position: relative;
+  display: grid;
+  flex: 1;
+}
+.focus-cta b {
+  font-family: var(--font-display);
+  font-size: var(--t-lg);
+}
+.focus-cta small {
+  opacity: 0.85;
+}
+.focus-cta svg {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+.focus-cta:hover svg {
+  transform: translateX(4px);
+}
+.focus-cta-ripple {
+  position: absolute;
+  right: -60px;
+  top: 50%;
+  width: 220px;
+  height: 220px;
+  translate: 0 -50%;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 13px, rgb(255 255 255 / 0.13) 13px 15px);
+}
+
+@media (max-width: 1080px) {
+  .today-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(280px, 42vh) auto auto;
+    padding: var(--s-4);
+  }
+  .hero-garden {
+    grid-row: 2;
+    margin: 0 -16px;
+  }
+  .hero-caption {
+    grid-row: 3;
+  }
+  .hero-stats {
+    grid-column: 1;
+    grid-row: 4;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: var(--s-3);
+  }
+  .hero-stats div {
+    min-width: 0;
+    padding: 8px 10px;
+  }
+  .hero-stats dd {
+    font-size: var(--t-lg);
+  }
+  .stone-row {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .stone-meta {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+}

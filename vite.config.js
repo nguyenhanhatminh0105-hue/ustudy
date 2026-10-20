@@ -26,9 +26,10 @@ export default defineConfig({
   },
   server: {
     port: 5173,
+    // Keep the browser's Host header so the API's same-origin check sees one origin.
     proxy: {
-      '/api': 'http://localhost:3000',
-      '/socket.io': { target: 'ws://localhost:3000', ws: true },
+      '/api': { target: 'http://localhost:3000', changeOrigin: false },
+      '/socket.io': { target: 'ws://localhost:3000', ws: true, changeOrigin: false },
     },
   },
 });

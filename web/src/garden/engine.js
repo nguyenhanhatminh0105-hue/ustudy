@@ -11,10 +11,17 @@ export function createEngine(container, { night = false, pixelRatioCap = 2 } = {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
-  renderer.domElement.style.display = 'block';
-  renderer.domElement.style.width = '100%';
-  renderer.domElement.style.height = '100%';
-  renderer.domElement.style.touchAction = 'none';
+  // The canvas is taken out of flow so it can never feed its own size back
+  // into the container's layout (a grid row would otherwise grow forever).
+  Object.assign(renderer.domElement.style, {
+    position: 'absolute',
+    inset: '0',
+    width: '100%',
+    height: '100%',
+    display: 'block',
+    touchAction: 'none',
+  });
+  if (getComputedStyle(container).position === 'static') container.style.position = 'relative';
   container.append(renderer.domElement);
 
   const scene = new THREE.Scene();

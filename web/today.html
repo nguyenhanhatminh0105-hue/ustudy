@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Today · UStudy</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script src="/theme-boot.js"></script>
+</head>
+<body>
+  <div class="app">
+    <nav class="rail" id="rail"></nav>
+    <main class="main" id="main">
+      <div class="page">
+        <section class="hero" aria-labelledby="greeting">
+          <div class="hero-copy">
+            <h1 id="greeting">&nbsp;</h1>
+            <p id="companion-line">&nbsp;</p>
+          </div>
+          <div id="garden" class="hero-garden" tabindex="0" aria-label="Your companion’s garden. Press Enter to pet your companion."></div>
+          <p class="hero-caption" id="caption" aria-live="polite"></p>
+          <dl class="hero-stats" id="stats">
+            <div><dt>Focused today</dt><dd class="num" id="stat-focus">–</dd></div>
+            <div><dt>Habits today</dt><dd class="num" id="stat-habits">–</dd></div>
+            <div><dt>Due this week</dt><dd class="num" id="stat-week">–</dd></div>
+          </dl>
+        </section>
+
+        <div class="today-grid">
+          <section aria-labelledby="next-title">
+            <div class="section-head">
+              <h2 id="next-title">Next up</h2>
+              <a class="meta" href="/assignments.html">All assignments</a>
+            </div>
+            <ol class="stones" id="next"></ol>
+          </section>
+
+          <aside class="today-side">
+            <section aria-labelledby="habits-title">
+              <div class="section-head">
+                <h2 id="habits-title">Today’s habits</h2>
+                <a class="meta" href="/habits.html">Manage</a>
+              </div>
+              <ul class="habit-checks" id="habits"></ul>
+            </section>
+            <a class="focus-cta" href="/focus.html">
+              <span class="focus-cta-ripple" aria-hidden="true"></span>
+              <span><b>Start a focus session</b><small id="focus-suggest">Your companion will sit with you.</small></span>
+              <i data-icon="arrow-right"></i>
+            </a>
+          </aside>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="./src/pages/today.js"></script>
+</body>
+</html>
