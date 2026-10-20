@@ -11,6 +11,8 @@
     "dev": "node --watch server/index.js",
     "dev:web": "vite",
     "build": "vite build",
+    "build:extension": "vite build --config vite.extension.config.js",
+    "dev:extension": "vite --config vite.extension.config.js",
     "start": "node server/index.js",
     "seed": "node server/db/seed.js",
     "test": "node --test --test-concurrency=1 \"tests/**/*.test.js\""

@@ -13,6 +13,36 @@ const DRAG_PX = 6;
 export const isNightNow = (d = new Date()) => d.getHours() >= 19 || d.getHours() < 6;
 
 /**
+ * A transparent head-and-shoulders portrait of the companion, e.g. for the
+ * browser-extension toolbar icon. Returns a canvas.
+ */
+export function portraitCanvas({ companion, stage, size = 128 }) {
+  const holder = document.createElement('div');
+  Object.assign(holder.style, { position: 'fixed', left: '-10000px', top: '0', width: `${size}px`, height: `${size}px` });
+  document.body.append(holder);
+  const engine = createEngine(holder, { night: false, pixelRatioCap: 1 });
+  engine.stop();
+  engine.renderer.shadowMap.enabled = false;
+  const rig = buildCharacter(companion, STAGE_INDEX[stage] ?? stage);
+  rig.setExpression('happy');
+  rig.root.rotation.y = 0.35;
+  engine.scene.add(rig.root);
+  rig.root.updateWorldMatrix(true, true);
+  const head = rig.head.getWorldPosition(new THREE.Vector3());
+  // Frame the whole little body, centred a bit below the eyes.
+  engine.focus.set(head.x * 0.45, head.y * 0.62, head.z * 0.3);
+  engine.frame(Math.max(rig.height, rig.radius * 1.9) * 0.5);
+  engine.renderOnce();
+  const out = document.createElement('canvas');
+  out.width = out.height = size;
+  out.getContext('2d').drawImage(engine.renderer.domElement, 0, 0, size, size);
+  engine.dispose();
+  disposeTree(engine.scene);
+  holder.remove();
+  return out;
+}
+
+/**
  * Renders one still frame of a companion's garden at a life stage and
  * returns it as a PNG data URL (for the growth-journey thumbnails), without
  * keeping a WebGL context alive.

@@ -10,6 +10,8 @@ export default defineConfig({
     outDir: '../dist',
     emptyOutDir: true,
     target: 'es2022',
+    // three.js is one ~700 kB chunk by design; it's cached once and shared by every page.
+    chunkSizeWarningLimit: 900,
     rollupOptions: {
       input: {
         index: page('index'),

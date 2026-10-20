@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>UStudy Garden</title>
+</head>
+<body data-companion="turtle" data-stage="baby">
+  <header class="skin-head">
+    <div class="motif" id="motif" aria-hidden="true"></div>
+    <div class="who">
+      <h1 id="name">UStudy</h1>
+      <span class="stage-pill" id="stage">&nbsp;</span>
+    </div>
+  </header>
+
+  <div id="garden" class="garden" tabindex="0" aria-label="Your companion. Click to pet, hold for a trick, drag to move."></div>
+
+  <section class="body" id="signed-in" hidden>
+    <dl class="numbers">
+      <div><dt>Coins</dt><dd class="coins" id="coins">0</dd></div>
+      <div><dt>Growth</dt><dd id="xp">0</dd></div>
+      <div><dt>Due in 48 h</dt><dd id="due-count">0</dd></div>
+    </dl>
+    <div class="bamboo" id="bamboo" role="img"></div>
+    <h2>Next up</h2>
+    <ul class="next" id="next"></ul>
+    <nav class="links">
+      <a id="open-today" target="_blank" rel="noopener">Open UStudy</a>
+      <a id="open-focus" target="_blank" rel="noopener">Start focusing</a>
+      <a id="open-garden" target="_blank" rel="noopener">Give a treat</a>
+    </nav>
+  </section>
+
+  <section class="body" id="signed-out" hidden>
+    <h2>Sign in to see your garden</h2>
+    <p>Open UStudy in a tab and sign in, then reopen this popup.</p>
+    <a class="primary" id="open-signin" target="_blank" rel="noopener">Open UStudy</a>
+  </section>
+
+  <section class="body" id="offline" hidden>
+    <h2>Can’t reach UStudy</h2>
+    <p>Start the app (<code>npm start</code>), or point the extension at where it runs:</p>
+  </section>
+
+  <footer>
+    <details>
+      <summary>Server</summary>
+      <form id="server-form">
+        <label for="server">UStudy address</label>
+        <input id="server" type="url" placeholder="http://localhost:3000" />
+        <button type="submit">Save</button>
+      </form>
+    </details>
+  </footer>
+  <script type="module" src="./src/popup.js"></script>
+</body>
+</html>
