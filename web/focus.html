@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Focus · UStudy</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script src="/theme-boot.js"></script>
+</head>
+<body>
+  <div class="app">
+    <nav class="rail" id="rail"></nav>
+    <main class="main" id="main">
+      <div class="page">
+        <section class="focus" aria-labelledby="focus-title">
+          <div id="garden" class="focus-garden" tabindex="0" aria-label="Your companion’s garden"></div>
+
+          <div class="focus-panel">
+            <h1 id="focus-title" class="visually-hidden">Focus</h1>
+            <div class="rake" id="rake" aria-hidden="true"></div>
+            <div class="timer" role="timer" aria-live="off">
+              <span class="timer-time num" id="time">25:00</span>
+              <span class="timer-sub" id="timer-sub">Ready when you are</span>
+            </div>
+
+            <form id="setup" class="focus-setup">
+              <div class="segmented lengths" role="radiogroup" aria-label="Session length">
+                <label><input type="radio" name="minutes" value="15" /><span>15</span></label>
+                <label><input type="radio" name="minutes" value="25" checked /><span>25</span></label>
+                <label><input type="radio" name="minutes" value="50" /><span>50</span></label>
+                <label><input type="radio" name="minutes" value="90" /><span>90</span></label>
+              </div>
+              <div class="field">
+                <label for="assignment">Working on</label>
+                <select class="select" id="assignment" name="assignment">
+                  <option value="">Just focusing</option>
+                </select>
+              </div>
+              <label class="bell"><span class="pebble"><input type="checkbox" id="bell" checked /><i></i></span>Ring a bell when time’s up</label>
+              <button class="btn btn-primary btn-lg" type="submit" id="start"><i data-icon="play"></i>Begin</button>
+            </form>
+
+            <div class="focus-running" id="running" hidden>
+              <p class="breath" id="breath" aria-hidden="true">Breathe in</p>
+              <button class="btn btn-quiet" type="button" id="end">End session early</button>
+            </div>
+
+            <div class="focus-done" id="done" hidden>
+              <p id="done-text"></p>
+              <button class="btn" type="button" id="again"><i data-icon="reset"></i>Another session</button>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="week-title">
+          <div class="section-head">
+            <h2 id="week-title">Your last two weeks</h2>
+            <span class="meta" id="week-total"></span>
+          </div>
+          <div class="week-bars" id="week" role="img"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="./src/pages/focus.js"></script>
+</body>
+</html>

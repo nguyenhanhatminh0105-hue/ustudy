@@ -1,0 +1,199 @@
+.focus {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 1fr);
+  min-height: min(78vh, 760px);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  background: repeating-linear-gradient(180deg, transparent 0 11px, var(--bg-rake) 11px 12px);
+}
+.focus-garden {
+  min-height: 420px;
+}
+.focus-garden:focus-visible {
+  outline-offset: -8px;
+}
+.focus-panel {
+  position: relative;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: var(--s-5);
+  padding: var(--s-6) var(--s-5);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  border-left: 1px solid var(--line);
+  overflow: hidden;
+}
+
+/* Raked rings around the time: one ring is raked for each slice of the session. */
+.rake {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 560px;
+  height: 560px;
+  translate: -50% -58%;
+  pointer-events: none;
+}
+.rake svg {
+  width: 100%;
+  height: 100%;
+}
+.rake circle {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1;
+  opacity: 0.45;
+  transition: stroke var(--dur-3), opacity var(--dur-3), stroke-width var(--dur-3);
+}
+.rake circle.raked {
+  stroke: var(--moss);
+  stroke-width: 1.6;
+  opacity: 0.6;
+}
+.rake circle.current {
+  stroke: var(--moss);
+  stroke-width: 2.2;
+  opacity: 0.9;
+  animation: breathe-ring 8s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+@keyframes breathe-ring {
+  0%,
+  100% {
+    transform: scale(0.985);
+  }
+  50% {
+    transform: scale(1.015);
+  }
+}
+
+.timer {
+  position: relative;
+  display: grid;
+  justify-items: center;
+}
+.timer-time {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(4rem, 3rem + 4vw, 6rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.timer-sub {
+  margin-top: var(--s-2);
+  color: var(--ink-2);
+  text-align: center;
+  max-width: 22rem;
+}
+.focus-setup {
+  position: relative;
+  display: grid;
+  gap: var(--s-4);
+  width: min(320px, 100%);
+}
+.lengths {
+  width: 100%;
+}
+.lengths label {
+  flex: 1;
+}
+.lengths span {
+  width: 100%;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
+.lengths span::after {
+  content: ' min';
+  font-weight: 400;
+  color: var(--ink-3);
+}
+.bell {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.focus-running,
+.focus-done {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--s-4);
+  text-align: center;
+}
+.breath {
+  font-family: var(--font-display);
+  font-size: var(--t-lg);
+  color: var(--moss-text);
+  min-height: 1.6em;
+  transition: opacity 1.2s ease;
+}
+.focus-done p {
+  font-size: var(--t-lg);
+  max-width: 22rem;
+}
+.focus-done b {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Two weeks of focus, drawn as raked bars. */
+.week-bars {
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  gap: 6px;
+  align-items: end;
+  height: 160px;
+  padding: var(--s-3) var(--s-4) 0;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.week-bars .bar {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 4px;
+  height: 100%;
+  text-align: center;
+}
+.week-bars .bar i {
+  align-self: end;
+  height: calc(var(--h) * 100%);
+  min-height: 3px;
+  border-radius: 6px 6px 2px 2px;
+  background: repeating-linear-gradient(180deg, var(--pond) 0 5px, color-mix(in srgb, var(--pond) 75%, var(--surface)) 5px 7px);
+  transition: height 700ms var(--ease-out);
+}
+.week-bars .bar.today i {
+  background: repeating-linear-gradient(180deg, var(--moss) 0 5px, color-mix(in srgb, var(--moss) 75%, var(--surface)) 5px 7px);
+}
+.week-bars .bar span {
+  font-size: 0.7rem;
+  color: var(--ink-3);
+  padding-bottom: 6px;
+}
+
+@media (max-width: 960px) {
+  .focus {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .focus-garden {
+    min-height: 300px;
+    height: 42vh;
+  }
+  .focus-panel {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .rake {
+    width: 440px;
+    height: 440px;
+  }
+  .week-bars {
+    gap: 3px;
+    padding-inline: var(--s-2);
+  }
+}
