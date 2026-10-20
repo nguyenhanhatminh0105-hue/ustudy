@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Calendar · UStudy</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script src="/theme-boot.js"></script>
+</head>
+<body>
+  <div class="app">
+    <nav class="rail" id="rail"></nav>
+    <main class="main" id="main">
+      <div class="page">
+        <header class="page-head">
+          <div>
+            <h1 id="month">&nbsp;</h1>
+            <p id="month-summary">&nbsp;</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-icon" type="button" id="prev" aria-label="Previous month"><i data-icon="chevron-left"></i></button>
+            <button class="btn" type="button" id="today">Today</button>
+            <button class="btn btn-icon" type="button" id="next" aria-label="Next month"><i data-icon="chevron-right"></i></button>
+          </div>
+        </header>
+
+        <div class="cal-layout">
+          <div class="cal" role="grid" aria-labelledby="month" id="cal"></div>
+          <aside class="day-panel" aria-live="polite">
+            <h2 id="day-title">&nbsp;</h2>
+            <ul class="day-items" id="day-items"></ul>
+            <a class="btn" id="day-add" href="/assignments.html?new=1"><i data-icon="plus"></i>Add something due this day</a>
+            <div class="courses" id="courses" aria-label="Courses"></div>
+          </aside>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="./src/pages/calendar.js"></script>
+</body>
+</html>

@@ -198,7 +198,9 @@ function openSheet(a = null) {
     form.description.value = a.description;
     $(`input[name="priority"][value="${a.priority}"]`).checked = true;
   } else {
-    const due = new Date(Date.now() + 3 * 86_400_000);
+    const preset = new URLSearchParams(location.search).get('due');
+    const due = preset ? new Date(`${preset}T23:59:00`) : new Date(Date.now() + 3 * 86_400_000);
+    if (Number.isNaN(due.getTime())) due.setTime(Date.now() + 3 * 86_400_000);
     due.setHours(23, 59, 0, 0);
     form.dueAt.value = toLocalInput(due.toISOString());
   }
