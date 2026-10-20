@@ -84,10 +84,12 @@
 .hours-bar i {
   display: block;
   height: 100%;
-  width: calc(var(--p) * 100%);
+  width: 100%;
   border-radius: inherit;
   background: repeating-linear-gradient(90deg, var(--moss) 0 6px, color-mix(in srgb, var(--moss) 80%, white) 6px 8px);
-  transition: width 700ms var(--ease-out);
+  transform: scaleX(var(--p));
+  transform-origin: left center;
+  transition: transform 700ms var(--ease-out);
 }
 .hours-label {
   display: flex;

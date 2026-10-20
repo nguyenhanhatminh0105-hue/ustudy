@@ -169,10 +169,12 @@
 .bamboo-bar span i {
   position: absolute;
   inset: 0;
-  width: calc(var(--fill, 0) * 100%);
+  width: 100%;
   background: linear-gradient(180deg, color-mix(in srgb, var(--moss) 80%, white), var(--moss));
   border-radius: inherit;
-  transition: width 900ms var(--ease-out);
+  transform: scaleX(var(--fill, 0));
+  transform-origin: left center;
+  transition: transform 900ms var(--ease-out);
 }
 
 /* ── Main column ──────────────────────────────────────── */

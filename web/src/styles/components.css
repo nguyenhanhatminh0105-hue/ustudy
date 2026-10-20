@@ -315,6 +315,7 @@
   border-radius: var(--r-lg);
   color: var(--ink-2);
 }
+.empty h2,
 .empty h3 {
   font-size: var(--t-lg);
   color: var(--ink);
