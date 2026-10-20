@@ -72,6 +72,19 @@ export function officialRoutes({ db }) {
   // ── Admin ────────────────────────────────────────────────────────
   const admin = requireRole('admin');
 
+  /** Staff view: every posted assignment, with how many students have added it. */
+  router.get(
+    '/manage',
+    admin,
+    wrap(async (_req, res) => {
+      const { rows } = await db.query(
+        `SELECT o.*, (SELECT count(*)::int FROM assignments a WHERE a.official_id = o.id) AS adopted
+         FROM official_assignments o ORDER BY o.due_at DESC`,
+      );
+      res.json({ official: rows.map((r) => ({ ...toOfficial(r), adopted: r.adopted })) });
+    }),
+  );
+
   router.post(
     '/',
     admin,

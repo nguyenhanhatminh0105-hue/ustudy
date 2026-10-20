@@ -95,4 +95,8 @@ test('only admins publish official assignments; students add them to their list 
   assert.equal(added.body.assignment.totalHours, 5);
   assert.equal((await student.agent.post(`/api/official/${posted.body.official.id}/add`)).status, 409);
   assert.equal((await student.agent.get('/api/official')).body.official[0].added, true);
+
+  assert.equal((await student.agent.get('/api/official/manage')).status, 403);
+  const manage = await staff.agent.get('/api/official/manage');
+  assert.equal(manage.body.official[0].adopted, 1);
 });
