@@ -91,3 +91,15 @@ test('earning enough XP grows the companion to the next life stage', async () =>
   }
   assert.equal(stage, 'child');
 });
+
+test('the active focus session can be resumed after a reload, and is gone once finished', async () => {
+  const { agent } = await signUp(ctx.app);
+  assert.equal((await agent.get('/api/focus/active')).body.session, null);
+  const start = await agent.post('/api/focus').send({ plannedMinutes: 25 });
+  const active = await agent.get('/api/focus/active');
+  assert.equal(active.body.session.id, start.body.session.id);
+  assert.equal(active.body.session.plannedMinutes, 25);
+  ctx.clock.now = new Date(ctx.clock.now.getTime() + 6 * 60_000);
+  await agent.post(`/api/focus/${start.body.session.id}/finish`);
+  assert.equal((await agent.get('/api/focus/active')).body.session, null);
+});

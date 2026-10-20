@@ -42,7 +42,7 @@ export function focusRoutes({ db, now = () => new Date() }) {
         [req.user.id, assignmentId ?? null, plannedMinutes, now()],
       );
       res.status(201).json({
-        session: { id: rows[0].id, plannedMinutes: rows[0].planned_minutes, startedAt: rows[0].started_at },
+        session: { id: rows[0].id, plannedMinutes: rows[0].planned_minutes, startedAt: rows[0].started_at, serverNow: now() },
       });
     }),
   );
@@ -88,6 +88,33 @@ export function focusRoutes({ db, now = () => new Date() }) {
         };
       });
       res.json(result);
+    }),
+  );
+
+  /** The session still running, if any, so a reloaded page can pick the timer back up. */
+  router.get(
+    '/active',
+    wrap(async (req, res) => {
+      const { rows } = await db.query(
+        `SELECT f.id, f.planned_minutes, f.started_at, f.assignment_id, a.title AS assignment_title
+         FROM focus_sessions f LEFT JOIN assignments a ON a.id = f.assignment_id
+         WHERE f.user_id = $1 AND f.ended_at IS NULL
+         ORDER BY f.started_at DESC LIMIT 1`,
+        [req.user.id],
+      );
+      const s = rows[0];
+      // Sessions left open far past their planned length are stale; don't resurrect them.
+      if (!s || now() - new Date(s.started_at) > (s.planned_minutes + 60) * 60_000) return res.json({ session: null });
+      res.json({
+        session: {
+          id: s.id,
+          plannedMinutes: s.planned_minutes,
+          startedAt: s.started_at,
+          assignmentId: s.assignment_id,
+          assignmentTitle: s.assignment_title,
+          serverNow: now(),
+        },
+      });
     }),
   );
 
