@@ -1,0 +1,170 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  align-items: center;
+  justify-content: space-between;
+}
+.search {
+  flex: 0 1 320px;
+}
+.groups {
+  display: grid;
+  gap: var(--s-6);
+}
+.group h2 {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  font-size: var(--t-lg);
+  margin-bottom: var(--s-2);
+}
+.group h2 .count {
+  font-family: var(--font-ui);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--ink-3);
+}
+.group.late h2 {
+  color: var(--danger);
+}
+
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.task {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(120px, 180px) auto auto;
+  gap: var(--s-4);
+  align-items: center;
+  padding: var(--s-3) var(--s-2);
+  border-bottom: 1px solid var(--line);
+  transition: background var(--dur-1);
+}
+.task:hover {
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
+}
+.task-main {
+  min-width: 0;
+}
+.task-main b {
+  display: block;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.task-main .sub {
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+.task.is-done .task-main b {
+  color: var(--ink-3);
+  text-decoration: line-through;
+}
+
+/* Hours: a row of raked lines filling up, one per hour. */
+.hours {
+  display: grid;
+  gap: 4px;
+}
+.hours-bar {
+  height: 8px;
+  border-radius: 99px;
+  background: var(--surface-sunk);
+  overflow: hidden;
+}
+.hours-bar i {
+  display: block;
+  height: 100%;
+  width: calc(var(--p) * 100%);
+  border-radius: inherit;
+  background: repeating-linear-gradient(90deg, var(--moss) 0 6px, color-mix(in srgb, var(--moss) 80%, white) 6px 8px);
+  transition: width 700ms var(--ease-out);
+}
+.hours-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.task-actions {
+  display: flex;
+  gap: 2px;
+}
+.task .due-col {
+  text-align: right;
+  min-width: 128px;
+}
+
+.official {
+  padding: var(--s-5);
+  border-radius: var(--r-xl);
+  background: var(--pond-soft);
+}
+.official-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-2);
+}
+.official-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--s-4);
+  align-items: center;
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+.official-list b {
+  display: block;
+}
+.official-list span {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+
+@media (max-width: 860px) {
+  .task {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'check main actions'
+      'check hours hours';
+  }
+  .task > .pebble {
+    grid-area: check;
+    align-self: start;
+    margin-top: 2px;
+  }
+  .task-main {
+    grid-area: main;
+  }
+  .task .hours {
+    grid-area: hours;
+  }
+  .task .due-col {
+    display: none;
+  }
+  .task-actions {
+    grid-area: actions;
+  }
+  .official-list li {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .official-list li .tag {
+    display: none;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

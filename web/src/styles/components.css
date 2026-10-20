@@ -95,6 +95,7 @@
 .field {
   display: grid;
   gap: 6px;
+  align-content: start;
 }
 .field > label,
 .field > .label {
@@ -461,4 +462,15 @@
   to {
     background-position: -200% 0;
   }
+}
+
+/* Due dates read as data: tabular figures, red when late. */
+.due {
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.due.late {
+  color: var(--danger);
+  font-weight: 500;
 }

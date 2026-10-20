@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Assignments · UStudy</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script src="/theme-boot.js"></script>
+</head>
+<body>
+  <div class="app">
+    <nav class="rail" id="rail"></nav>
+    <main class="main" id="main">
+      <div class="page">
+        <header class="page-head">
+          <div>
+            <h1>Assignments</h1>
+            <p id="summary">&nbsp;</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-primary" id="add" type="button"><i data-icon="plus"></i>Add assignment</button>
+          </div>
+        </header>
+
+        <div class="toolbar">
+          <div class="segmented" role="radiogroup" aria-label="Show">
+            <label><input type="radio" name="view" value="open" checked /><span>Open</span></label>
+            <label><input type="radio" name="view" value="completed" /><span>Done</span></label>
+            <label><input type="radio" name="view" value="all" /><span>All</span></label>
+          </div>
+          <label class="search">
+            <span class="visually-hidden">Search assignments</span>
+            <input class="input" id="search" type="search" placeholder="Search by title or course" autocomplete="off" />
+          </label>
+        </div>
+
+        <div id="groups" class="groups" aria-live="polite"></div>
+
+        <section id="official" class="official" aria-labelledby="official-title" hidden>
+          <div class="section-head">
+            <h2 id="official-title">From your courses</h2>
+            <span class="meta">Posted by course staff</span>
+          </div>
+          <ul class="official-list" id="official-list"></ul>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="sheet" id="sheet" hidden>
+    <div class="sheet-body" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <div class="sheet-head">
+        <h2 id="sheet-title">New assignment</h2>
+        <button class="btn btn-quiet btn-icon" type="button" data-close aria-label="Close"><i data-icon="x"></i></button>
+      </div>
+      <form id="form" class="form-grid" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-course">Course</label>
+            <input class="input" id="f-course" name="course" maxlength="40" placeholder="CMPT 381" required />
+          </div>
+          <div class="field">
+            <label for="f-hours">Hours it needs</label>
+            <input class="input" id="f-hours" name="totalHours" type="number" min="1" max="200" value="2" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-title">Title</label>
+          <input class="input" id="f-title" name="title" maxlength="160" required />
+        </div>
+        <div class="field">
+          <label for="f-due">Due</label>
+          <input class="input" id="f-due" name="dueAt" type="datetime-local" required />
+        </div>
+        <div class="field">
+          <span class="label" id="f-priority-label">Priority</span>
+          <div class="segmented" role="radiogroup" aria-labelledby="f-priority-label">
+            <label><input type="radio" name="priority" value="low" /><span>Low</span></label>
+            <label><input type="radio" name="priority" value="medium" checked /><span>Medium</span></label>
+            <label><input type="radio" name="priority" value="high" /><span>High</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-desc">Notes</label>
+          <textarea class="textarea" id="f-desc" name="description" maxlength="4000" placeholder="Anything you’ll want to remember"></textarea>
+        </div>
+        <p class="form-error" role="alert" hidden></p>
+        <div class="form-actions">
+          <button class="btn btn-danger btn-quiet" type="button" id="delete" hidden><i data-icon="trash"></i>Delete</button>
+          <span style="flex: 1"></span>
+          <button class="btn" type="button" data-close>Cancel</button>
+          <button class="btn btn-primary" type="submit" id="save">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script type="module" src="./src/pages/assignments.js"></script>
+</body>
+</html>

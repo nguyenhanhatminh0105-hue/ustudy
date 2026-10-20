@@ -158,15 +158,6 @@
   justify-content: flex-end;
   flex-wrap: wrap;
 }
-.due {
-  font-size: var(--t-sm);
-  color: var(--ink-2);
-  font-variant-numeric: tabular-nums;
-}
-.due.late {
-  color: var(--danger);
-  font-weight: 500;
-}
 .stone-row.is-done .stone-title b {
   text-decoration: line-through;
   text-decoration-color: var(--ink-3);
