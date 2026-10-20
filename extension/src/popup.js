@@ -82,7 +82,13 @@ async function main() {
   $('coins').textContent = p.coins;
   $('xp').textContent = p.xp;
   $('signed-in').hidden = false;
-  mountGarden($('garden'), { companion: p.companion, stage: p.stage, pixelRatioCap: 2 });
+  const previewNight = preview && new URLSearchParams(location.search).get('night');
+  mountGarden($('garden'), {
+    companion: p.companion,
+    stage: p.stage,
+    pixelRatioCap: 2,
+    night: previewNight ? previewNight === '1' : 'auto',
+  });
   updateToolbarIcon(p);
 
   const bamboo = $('bamboo');
