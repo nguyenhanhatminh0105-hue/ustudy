@@ -419,7 +419,8 @@ export function createBehaviour({ rig, world, effects, scene, night = false, cal
     },
     gift(dt, t) {
       const d = state.data;
-      const mouth = headWorld().add(v3(Math.sin(heading) * 0.12, -0.04, Math.cos(heading) * 0.12));
+      const reach = rig.radius * 0.75; // in front of the face, outside the head
+      const mouth = headWorld().add(v3(Math.sin(heading) * reach, -0.08, Math.cos(heading) * reach));
       face(v3(pos.x, 0, pos.z + 1), dt, 4); // turn to the viewer to receive it
       if (state.t < 1.0) {
         // the treat floats down from above
@@ -649,7 +650,7 @@ export function createBehaviour({ rig, world, effects, scene, night = false, cal
       pos.y = 0;
       rig.tuck(0);
       const treat = buildTreat(treatId);
-      treat.scale.setScalar((stage === 1 ? 1.2 : 1.5 + (stage - 2) * 0.2));
+      treat.scale.setScalar(stage === 1 ? 1.6 : 1.9 + (stage - 2) * 0.25);
       scene.add(treat);
       const from = headWorld().add(v3(0, 1.1, 0.2));
       treat.position.copy(from);

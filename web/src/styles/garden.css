@@ -1,0 +1,246 @@
+.sanctuary {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(380px, 60vh) auto;
+  gap: var(--s-2);
+  padding: var(--s-5);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(110% 80% at 50% 65%, color-mix(in srgb, var(--surface) 70%, transparent), transparent 70%),
+    repeating-linear-gradient(180deg, transparent 0 11px, var(--bg-rake) 11px 12px);
+  overflow: hidden;
+}
+.nameplate {
+  grid-row: 1;
+  grid-column: 1;
+  position: relative;
+  z-index: 1;
+  align-self: start;
+}
+.nameplate-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+.nameplate h1 {
+  font-size: var(--t-display);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.nameplate p {
+  margin-top: var(--s-2);
+  color: var(--ink-2);
+}
+.rename {
+  display: flex;
+  gap: var(--s-2);
+  max-width: 420px;
+}
+.sanctuary-garden {
+  grid-row: 1 / 3;
+  grid-column: 1;
+  margin: 0 -24px;
+}
+.sanctuary-garden:focus-visible {
+  outline-offset: -8px;
+}
+.sanctuary .hero-caption {
+  grid-row: 3;
+  grid-column: 1;
+  justify-self: start;
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  min-height: 34px;
+}
+.howto {
+  position: absolute;
+  right: var(--s-5);
+  bottom: var(--s-5);
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+  text-align: right;
+}
+.howto b {
+  color: var(--ink-2);
+}
+
+/* ── Treats ──────────────────────────────────────────── */
+.treats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-4);
+}
+.treat {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--s-3) var(--s-4);
+  align-items: center;
+  padding: var(--s-4);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.treat-art {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-pebble);
+  background: var(--koi-soft);
+}
+.treat-art svg {
+  width: 40px;
+  height: 40px;
+}
+.treat h3 {
+  font-size: var(--t-lg);
+}
+.treat p {
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
+.treat .price {
+  color: var(--koi);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.treat .btn {
+  grid-column: 1 / -1;
+}
+
+/* ── Growing up: four stages, future ones as silhouettes ── */
+.journey {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-4);
+  counter-reset: stage;
+}
+.journey li {
+  display: grid;
+  gap: var(--s-2);
+}
+.journey figure {
+  margin: 0;
+  aspect-ratio: 32 / 22;
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.journey img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.journey li.locked img {
+  filter: grayscale(1) brightness(0.2) opacity(0.25);
+}
+.journey li.current figure {
+  border: 2px solid var(--moss);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--moss) 18%, transparent);
+}
+.journey h3 {
+  font-size: var(--t-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.journey h3 small {
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.journey p {
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+
+/* ── Ledger and companion switch ──────────────────────── */
+.garden-lower {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+  gap: var(--s-6);
+  align-items: start;
+}
+.ledger {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.ledger li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--s-4);
+  padding: 10px var(--s-2);
+  border-bottom: 1px solid var(--line);
+  font-size: var(--t-sm);
+}
+.ledger time {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.ledger .xp {
+  color: var(--lantern);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.ledger .coins {
+  color: var(--koi);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  min-width: 4.5em;
+}
+.switch {
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+}
+.switch p {
+  color: var(--ink-2);
+  font-size: var(--t-sm);
+}
+
+@media (max-width: 960px) {
+  .treats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .journey {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .garden-lower {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .howto {
+    position: static;
+    text-align: left;
+    grid-template-columns: 1fr 1fr;
+  }
+  .sanctuary {
+    grid-template-rows: auto minmax(300px, 46vh) auto auto;
+    padding: var(--s-4);
+  }
+}

@@ -13,6 +13,34 @@ const DRAG_PX = 6;
 export const isNightNow = (d = new Date()) => d.getHours() >= 19 || d.getHours() < 6;
 
 /**
+ * Renders one still frame of a companion's garden at a life stage and
+ * returns it as a PNG data URL (for the growth-journey thumbnails), without
+ * keeping a WebGL context alive.
+ */
+export function snapshotGarden({ companion, stage, width = 320, height = 220, night = false }) {
+  const holder = document.createElement('div');
+  Object.assign(holder.style, { position: 'fixed', left: '-10000px', top: '0', width: `${width}px`, height: `${height}px` });
+  document.body.append(holder);
+  const engine = createEngine(holder, { night, pixelRatioCap: 2 });
+  engine.stop();
+  const world = buildWorld(companion, STAGE_INDEX[stage] ?? stage, { night, seed: 7 });
+  engine.scene.add(world.group);
+  const rig = buildCharacter(companion, STAGE_INDEX[stage] ?? stage);
+  rig.root.position.set(0.15, 0, 0.7);
+  rig.root.rotation.y = 0.45;
+  rig.setExpression('happy');
+  engine.scene.add(rig.root);
+  engine.focus.set(0.1, 0.35, 0.35);
+  engine.frame(world.radius * 0.72);
+  engine.renderOnce();
+  const url = engine.renderer.domElement.toDataURL('image/png');
+  engine.dispose();
+  disposeTree(engine.scene);
+  holder.remove();
+  return url;
+}
+
+/**
  * Mounts an interactive 3D garden with the companion in it.
  *
  *   const garden = mountGarden(el, { companion: 'turtle', stage: 'teen' });

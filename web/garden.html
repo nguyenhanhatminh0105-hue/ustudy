@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Garden · UStudy</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script src="/theme-boot.js"></script>
+</head>
+<body>
+  <div class="app">
+    <nav class="rail" id="rail"></nav>
+    <main class="main" id="main">
+      <div class="page">
+        <section class="sanctuary" aria-labelledby="name">
+          <div class="nameplate">
+            <div class="nameplate-row">
+              <h1 id="name">&nbsp;</h1>
+              <button class="btn btn-quiet btn-icon" type="button" id="rename" aria-label="Rename your companion"><i data-icon="pencil"></i></button>
+            </div>
+            <form id="rename-form" class="rename" hidden>
+              <label class="visually-hidden" for="new-name">Companion name</label>
+              <input class="input" id="new-name" name="companionName" maxlength="24" required />
+              <button class="btn btn-primary" type="submit">Save</button>
+              <button class="btn" type="button" id="rename-cancel">Cancel</button>
+            </form>
+            <p id="stage-line">&nbsp;</p>
+          </div>
+          <div id="garden" class="sanctuary-garden" tabindex="0" aria-label="Your companion’s garden. Press Enter to pet your companion."></div>
+          <p class="hero-caption" id="caption" aria-live="polite"></p>
+          <ul class="howto" aria-label="Things you can do">
+            <li><b>Click</b> to pet</li>
+            <li><b>Hold</b> for a trick</li>
+            <li><b>Drag</b> it anywhere, even into the water</li>
+            <li><b>Click the ground</b> to call it over</li>
+          </ul>
+        </section>
+
+        <section aria-labelledby="shop-title">
+          <div class="section-head">
+            <h2 id="shop-title">Treats</h2>
+            <span class="meta">Spend coins on a little something. It helps them grow, too.</span>
+          </div>
+          <ul class="treats" id="treats"></ul>
+        </section>
+
+        <section aria-labelledby="journey-title">
+          <div class="section-head">
+            <h2 id="journey-title">Growing up</h2>
+            <span class="meta" id="journey-meta"></span>
+          </div>
+          <ol class="journey" id="journey"></ol>
+        </section>
+
+        <div class="garden-lower">
+          <section aria-labelledby="ledger-title">
+            <div class="section-head"><h2 id="ledger-title">Where the growth came from</h2></div>
+            <ol class="ledger" id="ledger"></ol>
+          </section>
+          <section aria-labelledby="switch-title" class="switch">
+            <div class="section-head"><h2 id="switch-title">Companion</h2></div>
+            <p>Switching keeps all your progress; the new companion starts at the same life stage.</p>
+            <div class="segmented" role="radiogroup" aria-label="Companion">
+              <label><input type="radio" name="companion" value="turtle" /><span>Turtle</span></label>
+              <label><input type="radio" name="companion" value="panda" /><span>Panda</span></label>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="./src/pages/garden.js"></script>
+</body>
+</html>
