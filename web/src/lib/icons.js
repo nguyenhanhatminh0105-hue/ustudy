@@ -1,11 +1,11 @@
 import {
-  ArrowRight, BookOpen, CalendarDays, Check, ChevronLeft, ChevronRight, Clock, Coins, Copy, DoorOpen, Eye, EyeOff,
+  ArrowRight, BookOpen, Ellipsis, CalendarDays, Check, ChevronLeft, ChevronRight, Clock, Coins, Copy, DoorOpen, Eye, EyeOff,
   Flame, Gift, House, Leaf, ListTodo, LogOut, Monitor, Moon, Pause, Pencil, Play, Plus, RotateCcw, Send, Shield,
   Sparkles, Sprout, Square, Sun, Timer, Trash2, Users, Waves, X, createElement,
 } from 'lucide';
 
 const ICONS = {
-  'arrow-right': ArrowRight, book: BookOpen, calendar: CalendarDays, check: Check, 'chevron-left': ChevronLeft,
+  'arrow-right': ArrowRight, more: Ellipsis, book: BookOpen, calendar: CalendarDays, check: Check, 'chevron-left': ChevronLeft,
   'chevron-right': ChevronRight, clock: Clock, coins: Coins, copy: Copy, door: DoorOpen, eye: Eye, 'eye-off': EyeOff,
   flame: Flame, gift: Gift, home: House, leaf: Leaf, list: ListTodo, 'log-out': LogOut, monitor: Monitor, moon: Moon,
   pause: Pause, pencil: Pencil, play: Play, plus: Plus, reset: RotateCcw, send: Send, shield: Shield,

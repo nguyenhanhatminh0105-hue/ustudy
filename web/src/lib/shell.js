@@ -116,11 +116,22 @@ export async function initApp(pageId) {
 
   // Phones: a compact top bar with the brand and coins (the rail is the bottom bar there).
   const main = $('#main');
+  const more = h(
+    'details.mobile-more',
+    h('summary', { 'aria-label': 'More pages and settings' }, icon('more')),
+    h(
+      'nav.mobile-menu',
+      { 'aria-label': 'More' },
+      items.filter((i) => i.secondary).map((i) => h('a', { href: i.href, 'aria-current': i.id === pageId ? 'page' : undefined }, icon(i.icon), i.label)),
+      h('button', { type: 'button', onclick: () => { cycleTheme(); more.open = false; } }, icon('sun'), 'Change theme'),
+      h('button', { type: 'button', onclick: () => signOut.click() }, icon('log-out'), 'Sign out'),
+    ),
+  );
   main.prepend(
     h(
       'div.mobile-top',
       h('a.brand', { href: '/today.html' }, brandMark(), 'UStudy'),
-      h('span.tag', icon('coins'), h('span.num', { id: 'mobile-coins' }, String(user.progress.coins))),
+      h('div.mobile-top-right', h('span.tag', icon('coins'), h('span.num', { id: 'mobile-coins' }, String(user.progress.coins))), more),
     ),
   );
   hydrateIcons(main);

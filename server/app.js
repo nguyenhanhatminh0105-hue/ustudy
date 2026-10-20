@@ -56,7 +56,7 @@ export function createApp({ db, config, log = console, now }) {
           frameAncestors: ["'none'"],
           baseUri: ["'self'"],
           formAction: ["'self'"],
-          upgradeInsecureRequests: config.production ? [] : null,
+          upgradeInsecureRequests: null, // HSTS covers HTTPS deployments; this would break plain-HTTP localhost
         },
       },
       crossOriginEmbedderPolicy: false,
