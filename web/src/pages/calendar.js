@@ -75,7 +75,7 @@ function render() {
         'aria-label': `${formatLong(d)}${items.length ? `, ${plural(items.length, 'item')} due` : ''}`,
       },
       h('span.date', String(d.getDate())),
-      items.slice(0, 3).map((a) => tint(h(`span.chip${a.status === 'completed' ? '.done' : ''}`, a.title), a.course)),
+      items.slice(0, 3).map((a) => tint(h(`span.chip${a.status === 'completed' ? '.done' : ''}`, { title: a.title }, a.title), a.course)),
       items.length > 3 ? h('span.more', `+${items.length - 3} more`) : null,
     );
     cell.addEventListener('click', () => {
