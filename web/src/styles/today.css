@@ -49,6 +49,11 @@
   color: var(--ink-2);
   min-height: 34px;
 }
+/* The caption fills in once the companion starts moving; until then keep the
+   space so nothing jumps, but don't draw an empty pebble. */
+.hero-caption:empty {
+  visibility: hidden;
+}
 .hero-stats {
   grid-column: 2;
   grid-row: 1 / 3;

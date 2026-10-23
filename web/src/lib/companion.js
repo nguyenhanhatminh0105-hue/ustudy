@@ -13,7 +13,7 @@ export function activityCaption(state, progress) {
   const lines = {
     idle: `${name} is taking in the garden.`,
     walk: `${name} is wandering the gravel paths.`,
-    approach: `${name} is heading somewhere.`,
+    approach: `${name} is wandering over for a closer look.`,
     swim: `${name} is swimming slow laps in the pond.`,
     bask: `${name} is basking on the warm stone.`,
     koi: `${name} is feeding the koi.`,
