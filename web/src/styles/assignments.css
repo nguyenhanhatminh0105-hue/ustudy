@@ -51,11 +51,13 @@
   min-width: 0;
 }
 .task-main b {
-  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   font-weight: 700;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-wrap: pretty;
 }
 .task-main .sub {
   display: flex;
