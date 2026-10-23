@@ -21,6 +21,9 @@
   grid-template-columns: repeat(28, minmax(14px, 1fr));
   gap: 4px;
 }
+.days-legend {
+  display: none;
+}
 .habit-legend {
   margin-left: calc(240px + var(--s-5));
   margin-right: calc(110px + var(--s-4));
@@ -107,8 +110,23 @@ button.day:hover {
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
       'name side'
+      'legend legend'
       'days days';
     padding: var(--s-4);
+  }
+  .days-legend {
+    grid-area: legend;
+    display: grid;
+    grid-template-columns: repeat(14, minmax(0, 1fr));
+    gap: 4px;
+    margin-bottom: calc(var(--s-1) * -1);
+    font-size: 0.68rem;
+    text-align: center;
+    color: var(--ink-3);
+  }
+  .days-legend .today {
+    color: var(--pond);
+    font-weight: 700;
   }
   .habit-name {
     grid-area: name;

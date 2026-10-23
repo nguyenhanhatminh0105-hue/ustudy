@@ -86,9 +86,17 @@ function habitRow(habit) {
     }
   });
 
+  // On narrow screens the page-wide legend is hidden, so each card labels its own two weeks.
+  const legendSmall = h(
+    'div.days-legend',
+    { 'aria-hidden': 'true' },
+    days.slice(-14).map((d, i) => h(`span${i === 13 ? '.today' : ''}`, d.toLocaleDateString(undefined, { weekday: 'narrow' }))),
+  );
+
   return h(
     'li.habit',
     h('div.habit-name', h('b', habit.name), h('span', habit.targetPerWeek === 7 ? 'Every day' : `${habit.targetPerWeek} days a week`)),
+    legendSmall,
     grid,
     h(
       'div.habit-side',
