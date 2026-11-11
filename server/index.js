@@ -2,7 +2,7 @@ import http from 'node:http';
 import { loadConfig } from './config.js';
 import { createDb } from './db/index.js';
 import { migrate } from './db/migrate.js';
-import { seedDemo } from './db/seed.js';
+import { seedDemo, secureDemoAdmin } from './db/seed.js';
 import { createApp } from './app.js';
 import { attachRealtime } from './realtime/socket.js';
 import { scheduleRetention } from './jobs/retention.js';
@@ -15,6 +15,7 @@ async function main() {
   const ran = await migrate(db);
   if (ran.length) log.info(`[db] applied migrations: ${ran.join(', ')}`);
   if (config.seedDemo) await seedDemo(db, log);
+  if (config.production) await secureDemoAdmin(db, config.demoAdminPassword, log);
 
   const app = createApp({ db, config, log });
   const server = http.createServer(app);

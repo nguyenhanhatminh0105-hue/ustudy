@@ -20,6 +20,9 @@ const schema = z.object({
   JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters').optional(),
   COOKIE_SECURE: bool.optional(),
   SEED_DEMO: bool.optional(),
+  // Password for the sample admin account on a public deploy. Without it the
+  // admin account is locked in production, because its default password is in the README.
+  DEMO_ADMIN_PASSWORD: z.string().min(12, 'DEMO_ADMIN_PASSWORD must be at least 12 characters').optional(),
   // How many reverse proxies sit in front of the server (0 when run directly,
   // 1 on most hosts). Rate limits use it to find each visitor's real address.
   TRUST_PROXY: z.coerce.number().int().min(0).max(5).default(0),
@@ -58,6 +61,7 @@ export function loadConfig(env = process.env) {
     jwtSecret,
     cookieSecure: cfg.COOKIE_SECURE ?? production,
     seedDemo: cfg.SEED_DEMO ?? !production,
+    demoAdminPassword: cfg.DEMO_ADMIN_PASSWORD,
     trustProxy: cfg.TRUST_PROXY,
   };
 }

@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import crypto from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 
 /**
@@ -118,4 +119,17 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   const seeded = await seedDemo(db);
   if (!seeded) console.log('[seed] database already has users; nothing to do.');
   await db.close();
+}
+
+/**
+ * The sample admin's default password is published in the README, which is fine
+ * on a laptop and not on a public server: anyone could sign in and post course
+ * assignments to every student. In production the account gets the password
+ * the host chose, or a random one nobody knows.
+ */
+export async function secureDemoAdmin(db, password, log = console) {
+  const hash = await bcrypt.hash(password ?? crypto.randomBytes(32).toString('hex'), 12);
+  const { rowCount } = await db.query('UPDATE users SET password_hash = $1 WHERE email = $2', [hash, DEMO.admin.email]);
+  if (rowCount) log.info(password ? '[seed] sample admin uses DEMO_ADMIN_PASSWORD' : '[seed] sample admin is locked (set DEMO_ADMIN_PASSWORD to use it)');
+  return Boolean(rowCount);
 }
