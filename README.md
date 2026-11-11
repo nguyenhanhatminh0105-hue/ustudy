@@ -149,6 +149,7 @@ The app is a portfolio piece, so the security is part of the demo. Each item bel
 - **Errors:** unexpected errors return a generic 500. Internals and SQL never reach the client.
 - **Authorization:** every query is scoped to the signed-in user, and admin routes require the admin role from the session (tested: one student can't read or edit another's data).
 - **Exposure:** only the built frontend (`dist/`) is served. Server code can't be fetched over HTTP.
+- **Sample admin:** its default password is printed in this README, so in production the account is locked unless the host sets `DEMO_ADMIN_PASSWORD`.
 - **Retention:** expired study rooms and messages older than 14 days are purged on a schedule.
 
 ---
@@ -178,7 +179,7 @@ The sign-in page also has a **Use the sample account** button.
 
 **Chrome extension:** run `npm run build:extension`, open `chrome://extensions`, turn on Developer mode, choose **Load unpacked**, and select `extension/dist`. Then sign in to UStudy at `http://localhost:3000` in the same browser.
 
-**Tests:** `npm test` runs 42 API, security, configuration and realtime tests against an in-memory Postgres.
+**Tests:** `npm test` runs 44 API, security, configuration and realtime tests against an in-memory Postgres.
 
 ## Deploy
 
