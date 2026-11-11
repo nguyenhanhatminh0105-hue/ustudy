@@ -185,7 +185,7 @@ The sign-in page also has a **Use the sample account** button.
 
 `render.yaml` describes a free [Render](https://render.com) web service. In Render, choose **New**, then **Blueprint**, and pick this repository. It builds the frontend, generates a `JWT_SECRET`, seeds the sample accounts and sets `TRUST_PROXY=1` so rate limits see each visitor's own address.
 
-The free plan has no persistent disk, so the embedded database starts fresh on every deploy or restart. That suits a public demo. For data that lasts, set `DATABASE_URL` to any PostgreSQL 14+.
+Render asks for one value, `DATABASE_URL`: the connection string of any PostgreSQL 14+, such as a free [Neon](https://neon.tech) database. The embedded database is for local use only. It needs about 600 MB of memory at startup, which is more than the free plan's 512 MB.
 
 ## Project structure
 
