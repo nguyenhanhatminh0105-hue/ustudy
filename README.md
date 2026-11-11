@@ -178,7 +178,13 @@ The sign-in page also has a **Use the sample account** button.
 
 **Chrome extension:** run `npm run build:extension`, open `chrome://extensions`, turn on Developer mode, choose **Load unpacked**, and select `extension/dist`. Then sign in to UStudy at `http://localhost:3000` in the same browser.
 
-**Tests:** `npm test` runs 39 API, security and realtime tests against an in-memory Postgres.
+**Tests:** `npm test` runs 42 API, security, configuration and realtime tests against an in-memory Postgres.
+
+## Deploy
+
+`render.yaml` describes a free [Render](https://render.com) web service. In Render, choose **New**, then **Blueprint**, and pick this repository. It builds the frontend, generates a `JWT_SECRET`, seeds the sample accounts and sets `TRUST_PROXY=1` so rate limits see each visitor's own address.
+
+The free plan has no persistent disk, so the embedded database starts fresh on every deploy or restart. That suits a public demo. For data that lasts, set `DATABASE_URL` to any PostgreSQL 14+.
 
 ## Project structure
 

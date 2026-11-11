@@ -39,7 +39,9 @@ export function createApp({ db, config, log = console, now }) {
   const limiters = createLimiters(config);
 
   app.disable('x-powered-by');
-  app.set('trust proxy', false);
+  // Off unless the host says how many proxies to trust: trusting a forwarded
+  // address nobody vouches for would let a client pick its own rate-limit key.
+  app.set('trust proxy', config.trustProxy || false);
 
   app.use(
     helmet({
