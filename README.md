@@ -2,6 +2,8 @@
 
 **A study companion that grows up with you.** Finish assignments, keep focus sessions and check off habits, and a turtle or panda grows from a wobbly baby into a calm adult in a 3D zen garden you build by studying.
 
+**[Live demo](https://ustudy-9q3q.onrender.com)**: click **Use the sample account** to look around. It runs on a free host, so the first visit after a quiet spell takes about a minute to wake up.
+
 ![The Today page: a live 3D garden with the companion, upcoming assignments and today's habits](docs/screenshots/today.png)
 
 UStudy is a full-stack web app with an Express/PostgreSQL backend, a realtime layer, a three.js frontend and a companion Chrome extension. Everything here runs locally: one `npm install` and it works, with no database to set up.
