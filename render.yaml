@@ -1,7 +1,8 @@
 # One-click deploy to Render: https://render.com/docs/blueprint-spec
-# The free plan has no persistent disk, so the embedded database starts fresh
-# on every deploy or restart and the sample accounts are seeded again. That
-# suits a public demo. For data that lasts, add DATABASE_URL (any PostgreSQL 14+).
+# The embedded database (PGlite) needs about 600 MB of memory, more than the
+# free plan's 512 MB, so this deploy uses an external PostgreSQL instead.
+# Render asks for DATABASE_URL when the Blueprint is created: paste the
+# connection string of any PostgreSQL 14+ (a free Neon database works).
 services:
   - type: web
     name: ustudy
@@ -17,6 +18,8 @@ services:
         value: production
       - key: JWT_SECRET
         generateValue: true
+      - key: DATABASE_URL
+        sync: false
       - key: SEED_DEMO
         value: "true"
       - key: TRUST_PROXY
