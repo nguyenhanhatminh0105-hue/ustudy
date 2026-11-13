@@ -23,6 +23,7 @@ export default defineConfig({
         garden: page('garden'),
         rooms: page('rooms'),
         admin: page('admin'),
+        extension: page('extension'),
       },
     },
   },

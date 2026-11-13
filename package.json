@@ -1,6 +1,6 @@
 {
   "name": "ustudy",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "description": "A study companion that grows up with you: assignments, focus sessions, habits and realtime study rooms, with a 3D companion that evolves from baby to adult as you get work done.",
   "type": "module",
@@ -10,8 +10,9 @@
   "scripts": {
     "dev": "node --watch server/index.js",
     "dev:web": "vite",
-    "build": "vite build",
+    "build": "vite build && vite build --config vite.extension.config.js && node scripts/package-extension.mjs --site",
     "build:extension": "vite build --config vite.extension.config.js",
+    "package:extension": "npm run build:extension && node scripts/package-extension.mjs",
     "dev:extension": "vite --config vite.extension.config.js",
     "start": "node server/index.js",
     "seed": "node server/db/seed.js",
