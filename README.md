@@ -60,7 +60,7 @@ At night (or in the night theme) the lanterns light up, fireflies come out and c
 
 Each companion and stage has its own popup skin (palette and header motif). The toolbar icon is a live render of your companion, and the badge counts what's due in the next 48 hours. The extension is **read-only** by design: it only issues `GET` requests and never spends coins or changes data.
 
-**Get the extension** (Chrome, Edge, Opera, Brave):
+**Get the extension** (Chrome, Edge, Opera, Brave): signed-in users can open the **Extension** tab in UStudy and click **Download**. The page shows the install steps for the browser they're using. Or:
 
 1. Download `ustudy-extension-v2.1.0.zip` from the [latest release](https://github.com/nguyenhanhatminh0105-hue/ustudy/releases/latest) and unzip it.
 2. Open your browser's extensions page (`chrome://extensions`), turn on **Developer mode**, click **Load unpacked** and choose the unzipped folder.
@@ -193,7 +193,7 @@ The sign-in page also has a **Use the sample account** button.
 
 **Chrome extension:** run `npm run build:extension`, open `chrome://extensions`, turn on Developer mode, choose **Load unpacked**, and select `extension/dist`. Then sign in to UStudy at `http://localhost:3000` in the same browser. `npm run package:extension` builds it and writes `ustudy-extension-v<version>.zip`, the file attached to each release.
 
-**Tests:** `npm test` runs 59 API, security, configuration, realtime and extension tests. The API tests run against an in-memory Postgres.
+**Tests:** `npm test` runs 61 API, security, configuration, realtime and extension tests. The API tests run against an in-memory Postgres.
 
 ## Deploy
 
