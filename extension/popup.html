@@ -39,7 +39,12 @@
 
   <section class="body" id="offline" hidden>
     <h2>Can’t reach UStudy</h2>
-    <p>Start the app (<code>npm start</code>), or point the extension at where it runs:</p>
+    <p>Check your connection, or set where your UStudy runs under <b>Server</b> below. If you run it yourself, start it with <code>npm start</code>.</p>
+  </section>
+
+  <section class="body" id="waking" hidden>
+    <h2>Waking the garden…</h2>
+    <p>The hosted UStudy sleeps when nobody is using it. The first visit takes about a minute.</p>
   </section>
 
   <footer>
@@ -47,8 +52,11 @@
       <summary>Server</summary>
       <form id="server-form">
         <label for="server">UStudy address</label>
-        <input id="server" type="url" placeholder="http://localhost:3000" />
+        <input id="server" type="url" placeholder="Chosen automatically" />
         <button type="submit">Save</button>
+        <p id="server-now"></p>
+        <p id="server-hint">Leave empty to choose automatically: UStudy on this computer if it is running, otherwise the hosted one.</p>
+        <p id="server-error" role="alert"></p>
       </form>
     </details>
   </footer>

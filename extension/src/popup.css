@@ -212,3 +212,15 @@ footer button {
 [hidden] {
   display: none !important;
 }
+
+footer form p {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+#server-error:empty {
+  display: none;
+}
+#server-error {
+  color: #a3261a;
+  font-weight: 700;
+}
