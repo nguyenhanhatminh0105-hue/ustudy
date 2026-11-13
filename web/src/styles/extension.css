@@ -26,63 +26,35 @@
   color: var(--ink-2);
   font-weight: 600;
 }
-.ext-why {
-  margin: 0 0 var(--s-4);
+
+.ext-dialog {
+  max-width: 420px;
+  width: calc(100% - 32px);
+  padding: var(--s-5);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+.ext-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+.ext-dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+.ext-dialog select {
+  width: 100%;
+}
+.ext-dialog-note {
+  margin: 0;
   color: var(--ink-3);
 }
-
-.ext-steps {
-  display: grid;
-  gap: var(--s-3);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.ext-steps li {
+.ext-dialog-actions {
   display: flex;
-  gap: var(--s-4);
-  padding: var(--s-4);
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  background: var(--surface);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-.ext-steps.started li {
-  border-color: var(--moss);
-  box-shadow: 0 0 0 1px var(--moss);
-}
-.ext-steps h3 {
-  margin: 0 0 var(--s-1);
-  font-size: 1rem;
-}
-.ext-steps p {
-  margin: 0;
-  color: var(--ink-2);
-}
-.ext-num {
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--r-pebble);
-  background: var(--moss-soft);
-  color: var(--moss-text);
-  font-weight: 700;
-}
-.ext-copy {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  justify-content: flex-end;
   gap: var(--s-2);
-  margin-top: var(--s-3);
-}
-.ext-copy code {
-  padding: var(--s-2) var(--s-3);
-  border-radius: var(--r-md);
-  background: var(--surface-sunk);
-  font-size: 0.95rem;
-  user-select: all;
 }
 
 .ext-after {
@@ -96,10 +68,4 @@
 .ext-after p {
   margin: var(--s-2) 0 0;
   color: var(--ink-2);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ext-steps li {
-    transition: none;
-  }
 }

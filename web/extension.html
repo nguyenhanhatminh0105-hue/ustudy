@@ -15,7 +15,7 @@
         <header class="page-head">
           <div>
             <h1>Extension</h1>
-            <p>Your companion in the browser toolbar: see what’s due and how your garden is growing, without opening UStudy.</p>
+            <p>Your companion in the browser toolbar: see what's due and how your garden is growing, without opening UStudy.</p>
           </div>
         </header>
 
@@ -23,45 +23,15 @@
           <div class="ext-get-text">
             <h2 id="get-title">UStudy Garden</h2>
             <p class="ext-meta" id="meta">For Chrome, Edge, Opera and Brave</p>
-            <p id="unsupported" class="ext-warn" hidden>This browser can’t run the UStudy extension. Open this page in Chrome, Edge, Opera or Brave.</p>
+            <p id="unsupported" class="ext-warn" hidden>This browser can't run the UStudy extension. Open this page in Chrome, Edge, Opera or Brave.</p>
           </div>
-          <a class="btn btn-primary ext-download" id="download" href="/downloads/ustudy-extension.zip" download="ustudy-extension.zip">
+          <button class="btn btn-primary ext-download" type="button" id="download">
             <i data-icon="download"></i>Download
-          </a>
+          </button>
         </section>
-        <p id="missing" class="ext-warn" hidden>The download isn’t available on this server yet. Ask whoever runs it to rebuild UStudy.</p>
+        <p id="missing" class="ext-warn" hidden>The download isn't available on this server yet. Ask whoever runs it to rebuild UStudy.</p>
 
-        <section aria-labelledby="steps-title">
-          <h2 id="steps-title">Install it in three steps</h2>
-          <p class="ext-why">Browsers only install extensions on their own from their store, so this one takes a minute by hand.</p>
-          <ol class="ext-steps" id="steps">
-            <li id="step-1">
-              <span class="ext-num" aria-hidden="true">1</span>
-              <div>
-                <h3>Unzip the download</h3>
-                <p>Open your Downloads folder, right-click <b>ustudy-extension.zip</b> and choose <b>Extract All</b>. Keep the folder somewhere it won’t be deleted: the browser runs the extension from it.</p>
-              </div>
-            </li>
-            <li id="step-2">
-              <span class="ext-num" aria-hidden="true">2</span>
-              <div>
-                <h3>Open your extensions page</h3>
-                <p>Paste this into the address bar, then turn on <b>Developer mode</b><span id="dev-where"> (top right)</span>.</p>
-                <div class="ext-copy">
-                  <code id="ext-url">chrome://extensions</code>
-                  <button class="btn btn-quiet" type="button" id="copy"><i data-icon="copy"></i>Copy</button>
-                </div>
-              </div>
-            </li>
-            <li id="step-3">
-              <span class="ext-num" aria-hidden="true">3</span>
-              <div>
-                <h3>Load it</h3>
-                <p>Click <b>Load unpacked</b> and choose the folder you unzipped. Pin the UStudy icon from the puzzle-piece menu so it stays in your toolbar.</p>
-              </div>
-            </li>
-          </ol>
-        </section>
+        <p>Installing takes a minute by hand, because browsers only install extensions on their own from their store. <a href="/extension-guide.html">See the installation guide</a></p>
 
         <section class="ext-after panel" aria-labelledby="after-title">
           <h2 id="after-title">Then open it</h2>
@@ -69,6 +39,20 @@
           <p>The extension only looks: it never changes your assignments or spends your coins.</p>
         </section>
       </div>
+
+      <dialog id="confirm-download" class="ext-dialog" aria-labelledby="confirm-title">
+        <form method="dialog">
+          <h2 id="confirm-title">Download UStudy Garden?</h2>
+          <p id="confirm-text"></p>
+          <label for="confirm-browser">Your browser</label>
+          <select class="select" id="confirm-browser"></select>
+          <p class="ext-dialog-note">The installation guide opens in a new tab.</p>
+          <div class="ext-dialog-actions">
+            <button class="btn btn-quiet" value="cancel" type="submit">Cancel</button>
+            <button class="btn btn-primary" id="confirm-go" value="go" type="button">Download</button>
+          </div>
+        </form>
+      </dialog>
     </main>
   </div>
   <script type="module" src="./src/pages/extension.js"></script>
