@@ -1,8 +1,7 @@
-export const BROWSER_IDS = ['chrome', 'edge', 'brave', 'opera', 'opera-gx', 'firefox'];
+export const BROWSER_IDS = ['chrome', 'edge', 'brave', 'opera', 'opera-gx'];
 
 export const DOWNLOADS = {
-  chromium: '/downloads/ustudy-extension.zip',
-  firefox: '/downloads/ustudy-extension-firefox.xpi'
+  chromium: '/downloads/ustudy-extension.zip'
 };
 
 function chromiumSteps({ extensionsUrl, developerMode, pin }) {
@@ -64,16 +63,6 @@ export const BROWSERS = {
       developerMode: 'Click the Developer mode switch in the top right corner.',
       pin: 'the cube icon at the right of the address bar'
     })
-  },
-  firefox: {
-    name: 'Firefox',
-    download: 'firefox',
-    extensionsUrl: 'about:debugging#/runtime/this-firefox',
-    steps: [
-      { title: 'Open the debugging page', body: 'Type about:debugging#/runtime/this-firefox into your address bar and press Enter.' },
-      { title: 'Load the temporary add-on', body: 'Click Load Temporary Add-on… and select ustudy-extension-firefox.xpi from your Downloads folder.' },
-      { title: 'It lasts until Firefox restarts', body: 'Firefox removes add-ons loaded this way when it restarts. After restarting Firefox, repeat steps 1 and 2 to reload the extension.' }
-    ]
   }
 };
 
@@ -83,9 +72,9 @@ export function detectBrowser({ userAgent = '', brands = [], hasBraveApi = false
     return null;
   }
 
-  // Check for Firefox first (must not be on iOS)
+  // Firefox is not supported (return null)
   if (userAgent.includes('Firefox/') && !userAgent.includes('FxiOS')) {
-    return 'firefox';
+    return null;
   }
 
   // Check for Opera GX (brands must include 'Opera GX')
