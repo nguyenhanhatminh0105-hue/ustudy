@@ -16,6 +16,7 @@ const NAV = [
   { id: 'focus', label: 'Focus', href: '/focus.html', icon: 'timer' },
   { id: 'garden', label: 'Garden', href: '/garden.html', icon: 'leaf' },
   { id: 'rooms', label: 'Study rooms', href: '/rooms.html', icon: 'users', secondary: true },
+  { id: 'extension', label: 'Extension', href: '/extension.html', icon: 'puzzle', secondary: true },
 ];
 
 // ── progress in the rail ────────────────────────────────────────────
