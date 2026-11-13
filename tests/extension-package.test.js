@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { inflateRawSync } from 'node:zlib';
-import { zipDirectory } from '../scripts/package-extension.mjs';
+import { zipDirectory, publishForSite } from '../scripts/package-extension.mjs';
 
 // A small reader for the zip format, so the test does not trust the writer's own bookkeeping.
 function readZip(buffer) {
@@ -80,4 +80,23 @@ test('the shipped manifest allows the hosted server and asks before any other', 
   const csp = manifest.content_security_policy.extension_pages;
   assert.match(csp, /script-src 'self'/);
   assert.match(csp, /connect-src[^;]*https:/);
+});
+
+test('the site download is the zip plus a small file describing it', () => {
+  const dir = fixture();
+  writeFileSync(join(dir, 'manifest.json'), '{"name":"UStudy Garden","version":"9.8.7"}');
+  const outDir = join(mkdtempSync(join(tmpdir(), 'ustudy-site-')), 'downloads');
+  const info = publishForSite(dir, outDir);
+  const zip = readFileSync(join(outDir, 'ustudy-extension.zip'));
+  assert.ok('manifest.json' in readZip(zip));
+  assert.deepEqual(info, { version: '9.8.7', file: 'ustudy-extension.zip', bytes: zip.length });
+  assert.deepEqual(JSON.parse(readFileSync(join(outDir, 'ustudy-extension.json'), 'utf8')), info);
+});
+
+test('the Extension page is built and linked from the navigation', () => {
+  const read = (path) => readFileSync(new URL(path, import.meta.url), 'utf8');
+  assert.match(read('../vite.config.js'), /extension: page\('extension'\)/);
+  assert.match(read('../web/src/lib/shell.js'), /id: 'extension', label: 'Extension', href: '\/extension\.html'/);
+  assert.match(read('../web/extension.html'), /src\/pages\/extension\.js/);
+  assert.match(read('../package.json'), /"build": "[^"]*package-extension\.mjs --site/);
 });

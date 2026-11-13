@@ -3,9 +3,10 @@
  * and load with "Load unpacked". No dependencies: it writes the zip format
  * directly with Node's zlib.
  *
- *   npm run package:extension   ->  ustudy-extension-v<version>.zip
+ *   npm run package:extension   ->  ustudy-extension-v<version>.zip (for a release)
+ *   ... --site                  ->  dist/downloads/ustudy-extension.zip (served by the site's Extension page)
  */
-import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { deflateRawSync } from 'node:zlib';
@@ -80,11 +81,30 @@ export function zipDirectory(sourceDir, outFile) {
   return names;
 }
 
+/**
+ * Puts the zip where the website serves it, with a small file the Extension
+ * page reads to show the version and size. Returns that description.
+ */
+export function publishForSite(extensionDir, outDir) {
+  mkdirSync(outDir, { recursive: true });
+  const file = 'ustudy-extension.zip';
+  zipDirectory(extensionDir, join(outDir, file));
+  const { version } = JSON.parse(readFileSync(join(extensionDir, 'manifest.json'), 'utf8'));
+  const info = { version, file, bytes: statSync(join(outDir, file)).size };
+  writeFileSync(join(outDir, 'ustudy-extension.json'), JSON.stringify(info));
+  return info;
+}
+
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const root = resolve(fileURLToPath(import.meta.url), '..', '..');
   const dist = join(root, 'extension', 'dist');
-  const { version } = JSON.parse(readFileSync(join(dist, 'manifest.json'), 'utf8'));
-  const out = join(root, `ustudy-extension-v${version}.zip`);
-  const names = zipDirectory(dist, out);
-  console.log(`Packed ${names.length} files into ${out}`);
+  if (process.argv.includes('--site')) {
+    const info = publishForSite(dist, join(root, 'dist', 'downloads'));
+    console.log(`Extension ${info.version} ready for download from the site (${info.bytes} bytes)`);
+  } else {
+    const { version } = JSON.parse(readFileSync(join(dist, 'manifest.json'), 'utf8'));
+    const out = join(root, `ustudy-extension-v${version}.zip`);
+    const names = zipDirectory(dist, out);
+    console.log(`Packed ${names.length} files into ${out}`);
+  }
 }
