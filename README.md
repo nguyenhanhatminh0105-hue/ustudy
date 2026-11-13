@@ -60,6 +60,18 @@ At night (or in the night theme) the lanterns light up, fireflies come out and c
 
 Each companion and stage has its own popup skin (palette and header motif). The toolbar icon is a live render of your companion, and the badge counts what's due in the next 48 hours. The extension is **read-only** by design: it only issues `GET` requests and never spends coins or changes data.
 
+**Get the extension** (Chrome, Edge, Opera, Brave):
+
+1. Download `ustudy-extension-v2.1.0.zip` from the [latest release](https://github.com/nguyenhanhatminh0105-hue/ustudy/releases/latest) and unzip it.
+2. Open your browser's extensions page (`chrome://extensions`), turn on **Developer mode**, click **Load unpacked** and choose the unzipped folder.
+3. Click the UStudy icon, then **Open UStudy**, and sign in. Reopen the popup and your garden is there.
+
+**Which data it shows:** the extension follows the UStudy you're signed in to.
+
+- If UStudy is running on your own computer (`npm start`), it uses that one, so it shows your local data.
+- Otherwise it uses the hosted UStudy at `ustudy-9q3q.onrender.com`. The hosted site sleeps when idle, so the first popup can take about a minute.
+- To use a different address, such as your own deployment, open **Server** at the bottom of the popup and enter it. The browser asks for permission to connect to that address. Leave the field empty to go back to choosing automatically.
+
 ---
 
 ## System design
@@ -179,9 +191,9 @@ The sign-in page also has a **Use the sample account** button.
 
 **Configuration:** copy `.env.example` to `.env`. Everything is optional locally. Set `DATABASE_URL` to use your own PostgreSQL 14+ instead of the embedded database, and set `JWT_SECRET` in production.
 
-**Chrome extension:** run `npm run build:extension`, open `chrome://extensions`, turn on Developer mode, choose **Load unpacked**, and select `extension/dist`. Then sign in to UStudy at `http://localhost:3000` in the same browser.
+**Chrome extension:** run `npm run build:extension`, open `chrome://extensions`, turn on Developer mode, choose **Load unpacked**, and select `extension/dist`. Then sign in to UStudy at `http://localhost:3000` in the same browser. `npm run package:extension` builds it and writes `ustudy-extension-v<version>.zip`, the file attached to each release.
 
-**Tests:** `npm test` runs 44 API, security, configuration and realtime tests against an in-memory Postgres.
+**Tests:** `npm test` runs 59 API, security, configuration, realtime and extension tests. The API tests run against an in-memory Postgres.
 
 ## Deploy
 
