@@ -2,10 +2,10 @@
  * Keeps the toolbar badge showing how many things are due in the next 48
  * hours. Read-only: it only ever GETs from the UStudy server.
  */
-const DEFAULT_SERVER = 'http://localhost:3000';
+import { getServer } from './server.js';
 
 async function refreshBadge() {
-  const { server = DEFAULT_SERVER } = await chrome.storage.local.get('server');
+  const server = await getServer();
   try {
     const responses = await Promise.all(
       ['not_started', 'in_progress'].map((s) => fetch(`${server}/api/assignments?status=${s}`, { credentials: 'include' })),

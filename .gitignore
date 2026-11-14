@@ -8,3 +8,4 @@ dist/
 .DS_Store
 coverage/
 extension/dist/
+ustudy-extension-*.zip

@@ -2,15 +2,13 @@ import '@fontsource/zen-maru-gothic/latin-700.css';
 import './popup.css';
 import { mountGarden, portraitCanvas } from '../../web/src/garden/index.js';
 import { MOTIFS } from './skins.js';
+import { HOSTED_SERVER, getServer as pickServer, isBuiltIn, normalizeServer, originPattern } from './server.js';
 
 const $ = (id) => document.getElementById(id);
-const DEFAULT_SERVER = 'http://localhost:3000';
 const storage = globalThis.chrome?.storage?.local;
 
-async function getServer() {
-  const saved = storage ? (await storage.get('server')).server : null;
-  return saved || (location.protocol.startsWith('http') ? location.origin : DEFAULT_SERVER);
-}
+// In a normal tab (`npm run dev:extension`) the popup talks to the page's own origin.
+const getServer = () => (location.protocol.startsWith('http') ? location.origin : pickServer({ storage }));
 
 /** Read-only calls: the extension can look at your garden but never spends or changes anything. */
 async function get(server, path) {
@@ -51,7 +49,11 @@ const rel = (iso) => {
 
 async function main() {
   const server = await getServer();
-  $('server').value = server;
+  const { server: saved } = storage ? await storage.get('server') : {};
+  $('server').value = saved || '';
+  $('server-now').textContent = `Using ${new URL(server).host}${saved ? '' : ' (chosen automatically)'}`;
+  // The free host sleeps when idle and takes about a minute to wake.
+  const waking = server === HOSTED_SERVER ? setTimeout(() => ($('waking').hidden = false), 3000) : null;
   for (const [id, page] of [['open-today', 'today'], ['open-focus', 'focus'], ['open-garden', 'garden']]) $(id).href = `${server}/${page}.html`;
   $('open-signin').href = `${server}/`;
 
@@ -59,11 +61,15 @@ async function main() {
   try {
     session = await get(server, '/auth/session');
   } catch {
+    clearTimeout(waking);
+    $('waking').hidden = true;
     $('offline').hidden = false;
     $('name').textContent = 'UStudy';
     $('stage').hidden = true;
     return;
   }
+  clearTimeout(waking);
+  $('waking').hidden = true;
   const user = session?.user;
   if (!user) {
     $('signed-out').hidden = false;
@@ -129,8 +135,24 @@ async function main() {
 
 $('server-form').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const value = $('server').value.trim().replace(/\/$/, '');
-  if (!/^https?:\/\//.test(value)) return;
+  const typed = $('server').value.trim();
+  if (!typed) {
+    // Empty means: choose automatically again.
+    await storage?.remove('server');
+    location.reload();
+    return;
+  }
+  const value = normalizeServer(typed);
+  if (!value) {
+    $('server-error').textContent = 'Enter a full address, starting with http:// or https://';
+    return;
+  }
+  // Any server other than the built-in ones needs the browser's permission first.
+  const permissions = globalThis.chrome?.permissions;
+  if (!isBuiltIn(value) && permissions && !(await permissions.request({ origins: [originPattern(value)] }))) {
+    $('server-error').textContent = 'Permission is needed to connect to that address.';
+    return;
+  }
   await storage?.set({ server: value });
   location.reload();
 });
