@@ -25,6 +25,7 @@ export function portraitCanvas({ companion, stage, size = 128 }) {
   engine.renderer.shadowMap.enabled = false;
   const rig = buildCharacter(companion, STAGE_INDEX[stage] ?? stage);
   rig.setExpression('happy');
+  rig.update(1, 0); // settle the face into the expression for a still frame
   rig.root.rotation.y = 0.35;
   engine.scene.add(rig.root);
   rig.root.updateWorldMatrix(true, true);
@@ -59,6 +60,7 @@ export function snapshotGarden({ companion, stage, width = 320, height = 220, ni
   rig.root.position.set(0.15, 0, 0.7);
   rig.root.rotation.y = 0.45;
   rig.setExpression('happy');
+  rig.update(1, 0);
   engine.scene.add(rig.root);
   engine.focus.set(0.1, 0.35, 0.35);
   engine.frame(world.radius * 0.72);
