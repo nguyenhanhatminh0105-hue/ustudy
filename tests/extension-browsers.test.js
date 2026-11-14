@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { detectBrowser, BROWSERS, BROWSER_IDS, DOWNLOADS, guideUrl, browserFromQuery } from '../web/src/lib/extension-browsers.js';
+import { detectBrowser, isPhone, BROWSERS, BROWSER_IDS, DOWNLOADS, guideUrl, browserFromQuery } from '../web/src/lib/extension-browsers.js';
 
 // Real identities, read from the installed browsers (Opera GX 139, Edge 157, Chrome 157).
 const CHROMIUM_UA = (extra = '') => `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36${extra}`;
@@ -91,4 +91,49 @@ test('phones and tablets are not offered the desktop install, whatever the brows
   assert.equal(detectBrowser({ userAgent: androidTabletEdge }), null);
   assert.equal(detectBrowser({ userAgent: androidOpera, brands: ['Opera', 'Chromium'] }), null);
   assert.equal(detectBrowser({ userAgent: SEEN.chrome.userAgent, brands: SEEN.chrome.brands, mobile: true }), null, 'navigator.userAgentData.mobile');
+});
+
+test('isPhone tells phones and tablets apart from computers', () => {
+  assert.equal(isPhone({ userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' }), true);
+  assert.equal(isPhone({ userAgent: 'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36' }), true);
+  assert.equal(isPhone({ userAgent: 'Mozilla/5.0 (iPad; CPU OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/604.1' }), true);
+  assert.equal(isPhone({ userAgent: SEEN.chrome.userAgent, mobile: true }), true);
+  assert.equal(isPhone({ userAgent: SEEN.chrome.userAgent }), false);
+  assert.equal(isPhone({ userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0' }), false, 'desktop Firefox is unsupported, not a phone');
+  assert.equal(isPhone(), false);
+});
+
+test('the guide link can say the download has just started', () => {
+  assert.equal(guideUrl('edge'), '/extension-guide.html?browser=edge');
+  assert.equal(guideUrl('edge', { downloaded: true }), '/extension-guide.html?browser=edge&downloaded=1');
+  assert.equal(guideUrl('opera-gx', { downloaded: false }), '/extension-guide.html?browser=opera-gx');
+});
+
+test('the address to copy is its own field on the step that needs it', () => {
+  for (const id of BROWSER_IDS) {
+    const withCopy = BROWSERS[id].steps.filter((s) => s.copy);
+    assert.equal(withCopy.length, 1, `${id} has exactly one step with an address to copy`);
+    assert.equal(withCopy[0].copy, BROWSERS[id].extensionsUrl, id);
+    assert.ok(!withCopy[0].body.includes(BROWSERS[id].extensionsUrl), `${id}: the address is shown once, in the copy box, not repeated in the sentence`);
+  }
+});
+
+test('the Developer mode step reassures, in plain words', () => {
+  for (const id of BROWSER_IDS) {
+    const step = BROWSERS[id].steps.find((s) => /Developer mode/.test(s.title));
+    assert.ok(step, `${id} has a Developer mode step`);
+    assert.equal(typeof step.note, 'string', `${id}: the Developer mode step has a reassurance note`);
+    assert.match(step.note, /store/i, 'says it is about extensions from outside the store');
+    assert.match(step.note, /switch(es)? (it )?off|turn(s)? (it )?off/i, 'says turning it off later switches UStudy Garden off');
+    assert.ok(step.note.length <= 280, `${id}: the note stays short (${step.note.length} characters)`);
+  }
+});
+
+test('unzipping covers Windows and Mac, and keeps the folder out of Downloads', () => {
+  for (const id of BROWSER_IDS) {
+    const first = `${BROWSERS[id].steps[0].title} ${BROWSERS[id].steps[0].body}`;
+    assert.match(first, /Extract All/, `${id} Windows`);
+    assert.match(first, /Mac/, `${id} Mac`);
+    assert.match(first, /Documents/, `${id}: suggests a safe place, Documents`);
+  }
 });
