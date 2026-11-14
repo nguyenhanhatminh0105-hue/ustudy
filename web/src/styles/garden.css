@@ -1,7 +1,7 @@
 .sanctuary {
   position: relative;
   display: grid;
-  grid-template-rows: auto minmax(380px, 60vh) auto;
+  grid-template-rows: auto minmax(420px, 68vh) auto;
   gap: var(--s-2);
   padding: var(--s-5);
   border-radius: var(--r-xl);
@@ -38,8 +38,9 @@
   gap: var(--s-2);
   max-width: 420px;
 }
+/* The garden has its own row: tall bamboo and a lifted companion never draw over the name. */
 .sanctuary-garden {
-  grid-row: 1 / 3;
+  grid-row: 2;
   grid-column: 1;
   margin: 0 -24px;
 }
