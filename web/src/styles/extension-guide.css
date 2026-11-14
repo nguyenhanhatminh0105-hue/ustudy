@@ -1,72 +1,90 @@
-.guide-notice {
-  margin: var(--s-3) 0;
-  color: var(--ink-2);
-  font-weight: 600;
-  text-align: center;
+/* The header: the student's companion beside the promise. */
+.guide-head {
+  align-items: center;
+  justify-content: flex-start;
+}
+.guide-head p {
+  max-width: 62ch;
+}
+.guide-companion {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  border-radius: var(--r-pebble);
+  background: var(--moss-soft);
+}
+.guide-companion canvas {
+  width: 96px;
+  height: 96px;
 }
 
+.guide-notice {
+  color: var(--warn);
+  font-weight: 600;
+}
+
+/* Browser picker: the app's segmented control, wrapping on narrow screens. */
 .guide-picker {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s-2);
-  margin: var(--s-4) 0;
-  justify-content: center;
+  justify-self: start;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--r-md);
+  background: var(--surface-sunk);
 }
-
-.guide-browser-btn {
-  padding: var(--s-2) var(--s-4);
-  border: 1px solid var(--line);
-  border-radius: var(--r-pebble);
-  background: var(--surface);
-  color: var(--ink-3);
+.guide-picker button {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: var(--t-sm);
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition: background var(--dur-1), color var(--dur-1);
+}
+.guide-picker button:hover {
+  color: var(--ink);
+}
+.guide-picker button[aria-pressed='true'] {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-1);
 }
 
-.guide-browser-btn:hover {
-  border-color: var(--moss);
-}
-
-.guide-browser-btn[aria-pressed='true'] {
-  background: var(--moss);
-  color: var(--moss-ink);
-  border-color: var(--moss);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .guide-browser-btn {
-    transition: none;
-  }
-}
-
+/* Steps */
 .guide-steps {
   display: grid;
   gap: var(--s-3);
-  margin: var(--s-4) 0;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
-
 .guide-steps li {
   display: flex;
   gap: var(--s-4);
-  padding: var(--s-4);
+  padding: var(--s-4) var(--s-5);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   background: var(--surface);
 }
-
+.guide-step-body {
+  min-width: 0;
+  max-width: 68ch;
+}
 .guide-steps h3 {
   margin: 0 0 var(--s-1);
-  font-size: 1rem;
+  font-size: var(--t-md);
 }
-
 .guide-steps p {
   margin: 0;
   color: var(--ink-2);
 }
-
 .guide-num {
   flex: 0 0 auto;
   display: grid;
@@ -78,81 +96,86 @@
   color: var(--moss-text);
   font-weight: 700;
 }
-
+.guide-steps .guide-again {
+  margin-top: var(--s-2);
+  font-size: var(--t-sm);
+  color: var(--ink-3);
+}
 .guide-copy {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--s-2);
   margin-top: var(--s-3);
-  width: 100%;
 }
-
 .guide-copy code {
   padding: var(--s-2) var(--s-3);
   border-radius: var(--r-md);
   background: var(--surface-sunk);
-  font-size: 0.95rem;
+  font-size: var(--t-sm);
   user-select: all;
-  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+
+/* The reassurance at the Developer mode step: calm, pond-tinted. */
+.guide-note {
+  display: flex;
+  gap: var(--s-2);
+  align-items: flex-start;
+  margin-top: var(--s-3);
+  padding: var(--s-3);
+  border-radius: var(--r-md);
+  background: var(--pond-soft);
+  color: var(--ink);
+}
+.guide-note svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: var(--pond);
+}
+.guide-steps .guide-note p {
+  color: var(--ink);
 }
 
 .guide-after {
   padding: var(--s-4) var(--s-5);
   border-radius: var(--r-xl);
-  margin-top: var(--s-4);
 }
-
 .guide-after h2 {
   margin: 0 0 var(--s-2);
-  font-size: 1.1rem;
+  font-size: var(--t-lg);
 }
-
 .guide-after p {
+  max-width: 68ch;
   margin: var(--s-2) 0 0;
   color: var(--ink-2);
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (max-width: 600px) {
+  .guide-companion {
+    width: 80px;
+    height: 80px;
+  }
+  .guide-companion canvas {
+    width: 68px;
+    height: 68px;
+  }
+  .guide-picker button {
+    min-height: 44px;
+  }
   .guide-steps li {
-    transition: none;
+    gap: var(--s-3);
+    padding: var(--s-3) var(--s-4);
   }
-}
-
-/* Ensure no horizontal scroll on narrow screens */
-.guide-picker,
-.guide-copy {
-  max-width: 100%;
-}
-
-.guide-browser-btn {
-  flex: 1 1 auto;
-  min-width: 120px;
-}
-
-@media (max-width: 390px) {
-  .guide-picker {
-    justify-content: center;
-  }
-
-  .guide-browser-btn {
-    min-width: 100px;
-    padding: var(--s-2);
-  }
-
-  .guide-steps li {
-    flex-direction: column;
-    gap: var(--s-2);
-  }
-
   .guide-num {
     width: 28px;
     height: 28px;
-    font-size: 0.9rem;
+    font-size: var(--t-sm);
   }
+}
 
-  .guide-copy code {
-    font-size: 0.85rem;
-    padding: var(--s-1) var(--s-2);
+@media (prefers-reduced-motion: reduce) {
+  .guide-picker button {
+    transition: none;
   }
 }
