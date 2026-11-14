@@ -93,18 +93,48 @@ function rakedGravelTexture(radius, features, rand, night) {
 }
 
 /** The floating stone plinth that every garden sits on, with its raked gravel top. */
-export function plinth(radius, { features = [], seed = 1, night = false } = {}) {
+const PLINTH_HEIGHT = 0.6;
+/** Deep enough to swim in, but never deeper than the slab it is cut into. */
+export const pondDepth = (r) => Math.min(PLINTH_HEIGHT - 0.07, Math.max(0.24, r * 0.42));
+/** Where the water surface sits, a little below the gravel so the pond reads as sunk into it. */
+export const WATER_LEVEL = -0.035;
+
+/** The gravel disc, with a hole cut out for every pond so the basins below show through. */
+function gravelGeometry(r, holes) {
+  if (!holes.length) return new THREE.CircleGeometry(r, 96);
+  const shape = new THREE.Shape();
+  shape.absarc(0, 0, r, 0, TAU, false);
+  for (const h of holes) {
+    const hole = new THREE.Path();
+    // The disc is laid flat by rotating -90° about x, so world z is the shape's -y.
+    hole.absarc(h.x, -h.z, h.r, 0, TAU, true);
+    shape.holes.push(hole);
+  }
+  const geo = new THREE.ShapeGeometry(shape, 48);
+  // Same UVs a CircleGeometry would have, so the raked-gravel texture lines up.
+  const pos = geo.attributes.position;
+  const uv = geo.attributes.uv;
+  for (let i = 0; i < pos.count; i += 1) uv.setXY(i, pos.getX(i) / (2 * r) + 0.5, pos.getY(i) / (2 * r) + 0.5);
+  return geo;
+}
+
+export function plinth(radius, { features = [], holes = [], seed = 1, night = false } = {}) {
   const rand = seeded(seed);
   const group = new THREE.Group();
-  const height = 0.34;
+  const height = PLINTH_HEIGHT;
 
+  // Open-topped, so the pond basins cut into it aren't hidden under a lid.
   const base = new THREE.Mesh(
-    new THREE.CylinderGeometry(radius, radius * 0.94, height, 72, 1),
+    new THREE.CylinderGeometry(radius, radius * 0.94, height, 72, 1, true),
     toon(PALETTE.plinth),
   );
   base.position.y = -height / 2;
   base.receiveShadow = true;
   group.add(base);
+  const underside = new THREE.Mesh(new THREE.CircleGeometry(radius * 0.94, 72), toon(PALETTE.plinthDark));
+  underside.rotation.x = Math.PI / 2;
+  underside.position.y = -height;
+  group.add(underside);
 
   const lip = new THREE.Mesh(new THREE.TorusGeometry(radius - 0.02, 0.06, 8, 96), toon(PALETTE.plinthDark));
   lip.rotation.x = Math.PI / 2;
@@ -112,7 +142,7 @@ export function plinth(radius, { features = [], seed = 1, night = false } = {}) 
   group.add(lip);
 
   const top = new THREE.Mesh(
-    new THREE.CircleGeometry(radius - 0.05, 96),
+    gravelGeometry(radius - 0.05, holes),
     new THREE.MeshToonMaterial({ map: rakedGravelTexture(radius - 0.05, features, rand, night) }),
   );
   top.rotation.x = -Math.PI / 2;
@@ -186,19 +216,44 @@ export function mossMound(size = 0.35, seed = 3) {
 export function pond(radius = 1, { lilies = 0, seed = 4, deep = false } = {}) {
   const rand = seeded(seed);
   const g = new THREE.Group();
-  const bed = plain(new THREE.CircleGeometry(radius, 48), deep ? PALETTE.waterDeep : PALETTE.water, { castShadow: false });
+  const depth = pondDepth(radius);
+  const S = WATER_LEVEL;
+
+  // A real basin: sloped walls down to a sandy-dark floor, cut into the slab.
+  const wall = new THREE.Mesh(
+    new THREE.CylinderGeometry(radius, radius * 0.82, depth + 0.012, 48, 1, true),
+    toon(PALETTE.stoneDark, { side: THREE.BackSide }),
+  );
+  wall.position.y = 0.012 - (depth + 0.012) / 2;
+  wall.receiveShadow = true;
+  g.add(wall);
+  const bed = plain(new THREE.CircleGeometry(radius * 0.82, 48), deep ? PALETTE.waterDeep : PALETTE.mossDeep, { castShadow: false });
   bed.rotation.x = -Math.PI / 2;
-  bed.position.y = 0.02;
+  bed.position.y = -depth;
   bed.receiveShadow = true;
   g.add(bed);
+  // A few stones on the floor, so the depth has something to read against.
+  for (let i = 0; i < Math.round(radius * 4); i += 1) {
+    const a = rand() * TAU;
+    const d = rand() * radius * 0.6;
+    const p = stone(0.05 + rand() * 0.06, { seed: seed * 17 + i, color: PALETTE.stone });
+    p.position.set(Math.cos(a) * d, -depth, Math.sin(a) * d);
+    g.add(p);
+  }
 
-  const surface = new THREE.Mesh(
-    new THREE.CircleGeometry(radius, 48),
-    new THREE.MeshToonMaterial({ color: PALETTE.water, transparent: true, opacity: 0.55, depthWrite: false }),
-  );
-  surface.rotation.x = -Math.PI / 2;
-  surface.position.y = 0.06;
-  g.add(surface);
+  // Two layers of tinted water: whatever sits deeper passes through both and looks darker.
+  const layer = (y, color, opacity, r) => {
+    const m = new THREE.Mesh(
+      new THREE.CircleGeometry(r, 48),
+      new THREE.MeshToonMaterial({ color, transparent: true, opacity, depthWrite: false }),
+    );
+    m.rotation.x = -Math.PI / 2;
+    m.position.y = y;
+    g.add(m);
+    return m;
+  };
+  layer(S - depth * 0.5, PALETTE.waterDeep, 0.45, radius * 0.91);
+  layer(S, PALETTE.water, 0.5, radius);
 
   const rim = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.05, 6, 64), toon(PALETTE.stoneLight));
   rim.rotation.x = Math.PI / 2;
@@ -219,7 +274,7 @@ export function pond(radius = 1, { lilies = 0, seed = 4, deep = false } = {}) {
     const pad = plain(new THREE.CircleGeometry(0.13 + rand() * 0.05, 16, 0.3, TAU - 0.5), PALETTE.mossLight, { castShadow: false });
     pad.rotation.x = -Math.PI / 2;
     pad.rotation.z = rand() * TAU;
-    pad.position.set(Math.cos(a) * d, 0.065, Math.sin(a) * d);
+    pad.position.set(Math.cos(a) * d, S + 0.006, Math.sin(a) * d);
     g.add(pad);
     pads.push(pad);
   }
@@ -230,7 +285,7 @@ export function pond(radius = 1, { lilies = 0, seed = 4, deep = false } = {}) {
   for (let i = 0; i < 6; i += 1) {
     const ring = new THREE.Mesh(new THREE.RingGeometry(0.9, 1, 40), ringMat());
     ring.rotation.x = -Math.PI / 2;
-    ring.position.y = 0.07;
+    ring.position.y = S + 0.01;
     ring.userData = { age: 1, life: 1 };
     g.add(ring);
     rings.push(ring);
@@ -248,6 +303,8 @@ export function pond(radius = 1, { lilies = 0, seed = 4, deep = false } = {}) {
   g.userData = {
     kind: 'pond',
     radius,
+    depth,
+    surfaceY: S,
     ripple,
     update(dt, t, calm) {
       timer -= dt;
@@ -269,14 +326,14 @@ export function pond(radius = 1, { lilies = 0, seed = 4, deep = false } = {}) {
         ring.scale.set(s, s, s);
         ring.material.opacity = (1 - k) * 0.7;
       }
-      for (const [i, pad] of pads.entries()) pad.position.y = 0.065 + Math.sin(t * 0.8 + i) * 0.004;
+      for (const [i, pad] of pads.entries()) pad.position.y = S + 0.006 + Math.sin(t * 0.8 + i) * 0.004;
     },
   };
   return g;
 }
 
 /** A koi that circles lazily under the water surface. */
-export function koi(pondRadius, { seed = 5, white = false } = {}) {
+export function koi(pondRadius, { seed = 5, white = false, depth = pondDepth(pondRadius) } = {}) {
   const rand = seeded(seed);
   const g = new THREE.Group();
   const body = plain(new THREE.SphereGeometry(0.1, 14, 10), white ? PALETTE.koiWhite : PALETTE.koi, { castShadow: false });
@@ -295,9 +352,11 @@ export function koi(pondRadius, { seed = 5, white = false } = {}) {
   const tail = new THREE.Mesh(tailGeo, toon(white ? PALETTE.koiWhite : PALETTE.koi, { side: THREE.DoubleSide }));
   tail.position.z = -0.19;
   g.add(tail);
-  g.position.y = 0.035;
+  // Koi cruise below the surface and drift up and down; fed, they rise to take food.
+  const cruise = WATER_LEVEL - depth * (0.35 + rand() * 0.25);
+  g.position.y = cruise;
 
-  const orbit = pondRadius * (0.45 + rand() * 0.35);
+  const orbit = pondRadius * (0.45 + rand() * 0.3);
   const speed = (0.25 + rand() * 0.2) * (rand() > 0.5 ? 1 : -1);
   let angle = rand() * TAU;
   let target = null; // set by feed(): koi gather toward a point
@@ -324,6 +383,9 @@ export function koi(pondRadius, { seed = 5, white = false } = {}) {
         g.position.x = x;
         g.position.z = z;
       }
+      const fed = target && target.until > 0;
+      const wantY = fed ? WATER_LEVEL - 0.05 : cruise + Math.sin(t * 0.7 + seed) * depth * 0.12;
+      g.position.y += (wantY - g.position.y) * Math.min(1, dt * 1.5);
       tail.rotation.y = Math.sin(t * 7 + angle) * 0.45;
     },
   };
