@@ -24,6 +24,7 @@ export default defineConfig({
         rooms: page('rooms'),
         admin: page('admin'),
         extension: page('extension'),
+        'extension-guide': page('extension-guide'),
       },
     },
   },
