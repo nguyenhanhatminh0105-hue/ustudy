@@ -80,6 +80,39 @@ export function toon(color, { emissive = 0x000000, emissiveIntensity = 0, transp
   return cache.get(key);
 }
 
+/** A toon material coloured per vertex, for markings painted onto one smooth body (the panda's band). */
+export function toonVertex() {
+  return new THREE.MeshToonMaterial({ vertexColors: true, gradientMap: toonGradient() });
+}
+
+/**
+ * A toon material with a second colour painted as a slanted band, worked out per pixel so the edge
+ * stays crisp and smooth at any zoom: inside where lo < y + tilt·z < hi (in the mesh's own space).
+ */
+export function bandedToon({ color, band, lo, hi, tilt = 0 }) {
+  const material = new THREE.MeshToonMaterial({ color, gradientMap: toonGradient() });
+  material.onBeforeCompile = (shader) => {
+    Object.assign(shader.uniforms, {
+      uBand: { value: new THREE.Color(band) },
+      uLo: { value: lo },
+      uHi: { value: hi },
+      uTilt: { value: tilt },
+    });
+    shader.vertexShader = `varying vec3 vBandPos;\n${shader.vertexShader}`.replace(
+      '#include <begin_vertex>',
+      '#include <begin_vertex>\n  vBandPos = position;',
+    );
+    shader.fragmentShader = `varying vec3 vBandPos;\nuniform vec3 uBand;\nuniform float uLo;\nuniform float uHi;\nuniform float uTilt;\n${shader.fragmentShader}`.replace(
+      'vec4 diffuseColor = vec4( diffuse, opacity );',
+      `float bandF = vBandPos.y + uTilt * vBandPos.z;
+  float bandW = fwidth(bandF) * 1.2;
+  float inBand = smoothstep(uLo - bandW, uLo + bandW, bandF) * (1.0 - smoothstep(uHi - bandW, uHi + bandW, bandF));
+  vec4 diffuseColor = vec4( mix(diffuse, uBand, inBand), opacity );`,
+    );
+  };
+  return material;
+}
+
 const outlineMaterials = new Map();
 
 /** Inverted-hull ink outline: the mesh redrawn slightly larger along its normals, back faces only. */

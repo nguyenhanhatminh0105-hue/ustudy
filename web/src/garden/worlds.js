@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { PALETTE } from './materials.js';
+import { PALETTE, toon } from './materials.js';
 import {
-  bamboo, drifters, eggshell, koi, lantern, maple, mossMound, peaks, pavilion, plinth, pond, sprout, stone, waterfall,
+  bamboo, drifters, eggshell, koi, lantern, maple, mossMound, peaks, pavilion, plinth, pond, pondDepth, sprout, stone, waterfall, WATER_LEVEL,
 } from './props.js';
 
 /**
@@ -22,20 +22,20 @@ function layout(companion, stage) {
 
   if (companion === 'turtle') {
     if (stage === 1) {
-      P(0.75, -0.45, 0.55);
+      P(0.8, -0.4, 0.85);
       S(-0.95, -0.6, 0.25, { bask: true });
       M(1.25, 0.65, 0.22);
       L.sprouts.push([-0.45, -0.95], [-0.62, -0.82]);
       L.extras.push('eggshell');
     } else if (stage === 2) {
-      P(0.8, -0.4, 0.95, { lilies: 2 });
+      P(0.8, -0.4, 1.15, { lilies: 2 });
       S(-1.2, -0.8, 0.32, { bask: true });
       S(-0.35, -1.55, 0.2);
       M(1.7, 0.95, 0.3);
       M(-1.75, 0.55, 0.28);
       L.sprouts.push([-1.6, -0.2], [0.2, -1.8]);
     } else if (stage === 3) {
-      P(0.85, -0.55, 1.35, { lilies: 3, koi: 2 });
+      P(0.85, -0.55, 1.55, { lilies: 3, koi: 2 });
       S(-1.45, 0.15, 0.42, { bask: true });
       S(0.15, -2.35, 0.3);
       L.lanterns.push([-1.6, -1.5]);
@@ -44,7 +44,7 @@ function layout(companion, stage) {
       M(2.4, 1.0, 0.35);
       M(-2.2, 1.3, 0.3);
     } else {
-      P(0.65, -0.65, 1.8, { lilies: 4, koi: 3, deep: true, island: [1.0, -0.9] });
+      P(0.65, -0.65, 1.8, { lilies: 4, koi: 3, deep: true, island: [1.6, -1.6] });
       L.extras.push('waterfall');
       S(-1.25, -0.2, 0.46, { bask: true });
       S(-2.6, -1.9, 0.34);
@@ -71,13 +71,13 @@ function layout(companion, stage) {
       ring.forEach(([x, z], i) => B(x, z, 1.5 + ((i * 37) % 9) / 10));
       L.lanterns.push([1.8, -1.2]);
       M(1.2, 0.2, 0.45, true);
-      P(1.55, 1.25, 0.62, { lilies: 1 });
+      P(1.85, 1.5, 0.75, { lilies: 1 });
       for (const [x, z] of [[-0.6, 1.6], [-0.4, 1.0], [-0.1, 0.45], [0.1, -0.2]]) S(x, z, 0.17, { flat: true });
     } else {
       L.extras.push('peaks');
       L.extras.push('pavilion');
       for (const [x, z, h] of [[-2.9, -0.2, 2.1], [-2.6, -1.1, 2.4], [-2.1, -1.8, 1.9], [-3.1, 0.7, 1.8], [-2.4, 1.4, 1.6], [-1.6, -2.4, 2.2]]) B(x, z, h);
-      P(2.2, 1.05, 0.75, { koi: 1, lilies: 1 });
+      P(2.2, 1.05, 0.9, { koi: 1, lilies: 1 });
       L.lanterns.push([0.15, -2.2]);
       L.trees.push([2.6, -1.4, 0.95]);
       M(-0.9, 0.9, 0.42, true);
@@ -102,7 +102,7 @@ export function buildWorld(companion, stage, { night = false, seed = 1 } = {}) {
     ...L.ponds.map((p) => ({ x: p.x, z: p.z, r: p.r + 0.05 })),
     ...L.stones.filter((s) => !s.flat).map((s) => ({ x: s.x, z: s.z, r: s.r })),
   ];
-  root.add(plinth(radius, { features: ringFeatures, seed, night }));
+  root.add(plinth(radius, { features: ringFeatures, holes: L.ponds, seed, night }));
 
   const affordances = {
     radius,
@@ -119,13 +119,18 @@ export function buildWorld(companion, stage, { night = false, seed = 1 } = {}) {
     const pd = track(pond(p.r, { lilies: p.lilies ?? 0, seed: seed + i * 7, deep: p.deep }));
     pd.position.set(p.x, 0, p.z);
     root.add(pd);
-    affordances.water.push({ x: p.x, z: p.z, r: p.r, pond: pd });
+    affordances.water.push({ x: p.x, z: p.z, r: p.r, pond: pd, surface: WATER_LEVEL, bed: -pondDepth(p.r), island: p.island ? { x: p.island[0], z: p.island[1], r: 0.32 } : null });
     for (let k = 0; k < (p.koi ?? 0); k += 1) {
       const fish = track(koi(p.r, { seed: seed + 40 + k, white: k === 1 }));
       pd.add(fish);
       affordances.koi.push(fish);
     }
     if (p.island) {
+      // The island stands on a rock rising from the pond floor, not floating on the water.
+      const depth = pondDepth(p.r);
+      const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.3, depth, 9), toon(PALETTE.stoneDark));
+      pillar.position.set(p.island[0], -depth / 2, p.island[1]);
+      root.add(pillar);
       const isle = stone(0.3, { seed: 77, color: PALETTE.stoneDark });
       isle.position.set(p.island[0], 0, p.island[1]);
       root.add(isle);
