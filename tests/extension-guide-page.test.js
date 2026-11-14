@@ -26,8 +26,9 @@ test('the Extension page confirms the download, then opens the guide', () => {
   assert.match(js, /from '\.\.\/lib\/extension-browsers\.js'/);
   assert.match(js, /detectBrowser\(/);
   assert.match(js, /showModal\(\)/);
-  assert.match(js, /window\.open\(guideUrl\(/);
-  assert.match(js, /location\.assign\(guideUrl\(/, 'falls back to the same tab when a pop-up is blocked');
+  assert.match(js, /guideUrl\(/);
+  assert.match(js, /window\.open\(/, 'opens the guide in a new tab');
+  assert.match(js, /location\.assign\(/, 'falls back to the same tab when a pop-up is blocked');
   assert.match(js, /DOWNLOADS\[/);
 });
 

@@ -2,10 +2,13 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--s-4);
+  gap: var(--s-4) var(--s-5);
   padding: var(--s-5);
   border-radius: var(--r-xl);
+}
+.ext-get-text {
+  flex: 1 1 280px;
+  min-width: 0;
 }
 .ext-get h2 {
   margin: 0;
@@ -14,58 +17,106 @@
   margin: var(--s-1) 0 0;
   color: var(--ink-3);
 }
+.ext-promise {
+  max-width: 62ch;
+  margin: var(--s-2) 0 0;
+  color: var(--ink-2);
+}
 .ext-download {
   padding-inline: var(--s-5);
 }
-.ext-download[aria-disabled='true'] {
-  opacity: 0.5;
-  pointer-events: none;
-}
 .ext-warn {
+  max-width: 62ch;
   margin: var(--s-2) 0 0;
-  color: var(--ink-2);
+  color: var(--warn);
   font-weight: 600;
+}
+.ext-phone {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
+}
+.ext-phone .ext-warn {
+  margin: 0;
+}
+.ext-why {
+  max-width: 64ch;
+  color: var(--ink-2);
+}
+
+/* The student's companion, in a soft pebble frame. */
+.ext-companion {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--r-pebble);
+  background: var(--moss-soft);
+}
+.ext-companion canvas {
+  width: 64px;
+  height: 64px;
 }
 
 .ext-dialog {
-  max-width: 420px;
+  max-width: 440px;
   width: calc(100% - 32px);
   padding: var(--s-5);
   border-radius: var(--r-xl);
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--ink);
+  box-shadow: 0 16px 48px rgb(27 33 30 / 0.18);
 }
 .ext-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgb(17 22 19 / 0.5);
 }
 .ext-dialog form {
+  display: grid;
+  gap: var(--s-4);
+}
+.ext-dialog-head {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: var(--s-3);
 }
-.ext-dialog select {
-  width: 100%;
+.ext-dialog-head .ext-companion {
+  width: 56px;
+  height: 56px;
+}
+.ext-dialog-head .ext-companion canvas {
+  width: 46px;
+  height: 46px;
+}
+.ext-dialog h2 {
+  margin: 0;
+  font-size: var(--t-xl);
+}
+.ext-facts {
+  display: grid;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink-2);
+}
+.ext-facts b {
+  color: var(--ink);
+}
+.ext-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--s-2);
 }
 .ext-dialog-note {
   margin: 0;
   color: var(--ink-3);
-}
-.ext-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--s-2);
+  font-size: var(--t-sm);
+  text-align: right;
 }
 
-.ext-after {
-  padding: var(--s-4) var(--s-5);
-  border-radius: var(--r-xl);
-}
-.ext-after h2 {
-  margin: 0 0 var(--s-2);
-  font-size: 1.1rem;
-}
-.ext-after p {
-  margin: var(--s-2) 0 0;
-  color: var(--ink-2);
+#intro {
+  max-width: 62ch;
 }

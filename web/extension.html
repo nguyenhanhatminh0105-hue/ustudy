@@ -15,42 +15,47 @@
         <header class="page-head">
           <div>
             <h1>Extension</h1>
-            <p>Your companion in the browser toolbar: see what's due and how your garden is growing, without opening UStudy.</p>
+            <p id="intro">Your companion in the browser toolbar: see what’s due and how your garden is growing, without opening UStudy.</p>
           </div>
         </header>
 
         <section class="ext-get panel" aria-labelledby="get-title">
+          <div class="ext-companion" aria-hidden="true"></div>
           <div class="ext-get-text">
             <h2 id="get-title">UStudy Garden</h2>
             <p class="ext-meta" id="meta">For Chrome, Edge, Opera and Brave</p>
-            <p id="unsupported" class="ext-warn" hidden>This browser can't run the UStudy extension. Open this page in Chrome, Edge, Opera or Brave.</p>
+            <p class="ext-promise">It only reads your UStudy: it never changes your assignments or spends your coins.</p>
+            <p id="unsupported" class="ext-warn" hidden>This browser can’t run UStudy Garden. Open this page in Chrome, Edge, Brave or Opera.</p>
           </div>
-          <button class="btn btn-primary ext-download" type="button" id="download">
+          <button class="btn btn-primary ext-download" type="button" id="download" aria-describedby="missing">
             <i data-icon="download"></i>Download
           </button>
+          <div class="ext-phone" id="phone" hidden>
+            <p class="ext-warn">Extensions only work on a computer. Send yourself this page and open it on your laptop.</p>
+            <button class="btn" type="button" id="copy-link"><i data-icon="copy"></i>Copy link</button>
+          </div>
         </section>
-        <p id="missing" class="ext-warn" hidden>The download isn't available on this server yet. Ask whoever runs it to rebuild UStudy.</p>
+        <p id="missing" class="ext-warn" hidden>The download isn’t ready on this server yet. Try again later.</p>
 
-        <p>Installing takes a minute by hand, because browsers only install extensions on their own from their store. <a href="/extension-guide.html">See the installation guide</a></p>
-
-        <section class="ext-after panel" aria-labelledby="after-title">
-          <h2 id="after-title">Then open it</h2>
-          <p>Click the UStudy icon in your toolbar. It shows your companion, your coins and growth, and the next things due. It uses this UStudy automatically, as long as you stay signed in here.</p>
-          <p>The extension only looks: it never changes your assignments or spends your coins.</p>
-        </section>
+        <p class="ext-why">Installing takes a minute by hand, because browsers only install extensions on their own from their store. <a href="/extension-guide.html">See the installation guide</a>.</p>
       </div>
 
       <dialog id="confirm-download" class="ext-dialog" aria-labelledby="confirm-title">
         <form method="dialog">
-          <h2 id="confirm-title">Download UStudy Garden?</h2>
-          <p id="confirm-text"></p>
-          <label for="confirm-browser">Your browser</label>
-          <select class="select" id="confirm-browser"></select>
-          <p class="ext-dialog-note">The installation guide opens in a new tab.</p>
+          <div class="ext-dialog-head">
+            <div class="ext-companion" aria-hidden="true"></div>
+            <h2 id="confirm-title">Before you plant it</h2>
+          </div>
+          <ul class="ext-facts">
+            <li><b>What it shows:</b> <span id="fact-shows">your companion, your coins and growth, and what’s due in the next two days.</span></li>
+            <li><b>What it never does:</b> it never changes your assignments or spends your coins.</li>
+            <li><b>What to expect:</b> <span id="fact-expect">installing takes about a minute by hand, with Developer mode switched on. The guide shows every step.</span></li>
+          </ul>
           <div class="ext-dialog-actions">
             <button class="btn btn-quiet" value="cancel" type="submit">Cancel</button>
-            <button class="btn btn-primary" id="confirm-go" value="go" type="button">Download</button>
+            <button class="btn btn-primary" id="confirm-go" type="button">Download and show me how</button>
           </div>
+          <p class="ext-dialog-note">The steps open in a new tab.</p>
         </form>
       </dialog>
     </main>
